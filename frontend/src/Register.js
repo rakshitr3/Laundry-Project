@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App1.css';
+import './App.css';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './utils/Navbar';
 import Footer from './utils/Footer';
@@ -94,7 +94,7 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className='main'>
       <Navbar />
       <div className='register-mid'>
         <div style={{ width: '402px' }}>

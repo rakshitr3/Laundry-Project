@@ -1,7 +1,13 @@
 .main {
-  width: 1440px;
+  width: 1450px;
 height: 1172px;
 background: #FFFFFF 0% 0% no-repeat padding-box;
+}
+
+.top-laundry {
+  position: relative;
+  top:13px;
+  left:100px;
 }
 
 .navBar {
@@ -21,14 +27,13 @@ box-shadow: 0px 2px 48px #0000000F;
   width: 452px;
 }
 
-
-
 .right {
   position: relative;
 left: 485px;
   width: 710px;
   height: 769px;
   background: #B9C0FD1A 0% 0% no-repeat padding-box;
+  border-left:1px solid grey;
 }
 
 .laundry-service {
@@ -102,11 +107,39 @@ form {
 
 .bottom {
   display: flex;
-  width: 1440px;
+  position: relative;
+  top:-20px;
 height: 197px;
-background: transparent 0% 0% no-repeat padding-box;
-justify-content: space-between;
+background: transparent url('img/Footer.svg') 0% 0% no-repeat padding-box; 
+gap:115px;
 }
+
+.bottom-seperate {
+  position: relative;
+  top:22px;
+  margin-left:150px;
+  display:flex;
+  gap:70px;
+}
+
+.about { 
+  position: relative;
+  left:125px;
+  top:35px;
+  width: 120px;
+height: 25px;
+text-align: center;
+font: normal normal 500 18px/24px Avenir;
+letter-spacing: 0.18px;
+color: #182838
+}
+
+.doorstep-bottom {
+  position: relative;
+  left:142px;
+  top:26px;
+}
+
 
 label {
   color: #5861AE;
@@ -161,10 +194,6 @@ height: 50px;
 }
 
 h2 {
-  position: relative;
-  top: 10px;
-left: 119px;
-  width: 108px;
 height: 27px;
 text-align: left;
 font: normal normal 900 20px/27px Avenir;
@@ -193,4 +222,47 @@ letter-spacing: 1.05px;
 a {
   color:#565657;
   text-decoration: none;
+}
+
+.referral {
+  position:relative;
+  top: 15px;
+left: 463px;
+width: 519px;
+height: 33px;
+text-align: left;
+font: normal normal 600 24px/26px Open Sans;
+letter-spacing: 0.96px;
+color: #5861AE;
+}
+
+.conditions {
+  position:relative;
+  top: -10px;
+left: 630px;
+width: 183px;
+height: 14px;
+text-align: left;
+font: italic normal normal 10px/26px Open Sans;
+letter-spacing: 0.4px;
+}
+
+.terms {
+  position: relative;
+  top:-15px;
+  height:80px;
+  width:1440px;
+}
+
+
+.register-mid {
+  display:flex;
+  width:1440px;
+}
+
+.right1 {
+  position: relative;
+  width: 1038px;
+  height: 766px;
+  background: #F8F9FF 0% 0% no-repeat padding-box;
 }
