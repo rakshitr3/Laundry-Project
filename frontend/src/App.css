@@ -36,6 +36,19 @@ left: 485px;
   border-left:1px solid grey;
 }
 
+.laundry-service1 {
+  position: relative;
+  top: 20px;
+left: 180px;
+width: 246px;
+height: 257px;
+text-align: left;
+font: normal normal 900 100px/120px Avenir;
+letter-spacing: 0px;
+color: #5861AE;
+}
+
+
 .laundry-service {
   position: relative;
   top: 20px;
@@ -47,6 +60,20 @@ font: normal normal 900 100px/120px Avenir;
 letter-spacing: 0px;
 color: #5861AE;
 }
+
+.doorstep1 {
+  position: relative;
+  top: -70px;
+left: 175px;
+  width: 245px;
+height: 27px;
+text-align: left;
+font: normal normal normal 20px/26px Avenir;
+letter-spacing: 0.8px;
+color: #565657;
+  white-space: nowrap;
+}
+
 
 .doorstep {
   position: relative;
@@ -266,3 +293,8 @@ letter-spacing: 0.4px;
   height: 766px;
   background: #F8F9FF 0% 0% no-repeat padding-box;
 }
+
+.left {
+  width:50%;
+}
+

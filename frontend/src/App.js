@@ -56,6 +56,7 @@ function App() {
         setResponseMessage('Login successful!');
         localStorage.setItem('token', response.data.token);
       }
+      navigate("/dashboard")
     } catch (error) {
       setResponseMessage(error.response?.data?.message || 'An error occurred');
     }
@@ -70,8 +71,8 @@ function App() {
       <Navbar />
       <div className="nav-bottom">
         <div>
-          <h3 className='laundry-service'>Laundry Service</h3>
-          <p className='doorstep'>Doorstep Wash & Dryclean Service</p>
+          <h3 className='laundry-service1'>Laundry Service</h3>
+          <p className='doorstep1'>Doorstep Wash & Dryclean Service</p>
           <p className='dont'>Don't have an account?</p>
           <button className='register' onClick={navigateToRegister}>Register</button>
         </div>
@@ -97,7 +98,7 @@ function App() {
               {error && <p className="text-danger">{error}</p>}
             </div>
 
-            <div className="mb-3">
+            <div>
               <label>
                 Password
               </label>
@@ -110,7 +111,7 @@ function App() {
                 required
               />
             </div>
-            <div className="mb-3">
+            <div>
               <a href="#" style={{ display: "flex", justifyContent: "right", position:"relative", right:"240px", color: "#5861AE" }}>Forgot Password?</a>
             </div>
             <button type="submit" className='sign-button'>Sign In</button>

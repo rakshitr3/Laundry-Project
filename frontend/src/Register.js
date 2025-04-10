@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import './Register.css';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './utils/Navbar';
 import Footer from './utils/Footer';
-
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ function Register() {
     email: '',
     district: '',
     pinCode: '',
+    confirmPass: '',
     mobile: '',
     password: '',
     state: '',
@@ -28,69 +29,62 @@ function Register() {
       ...prevData,
       [name]: value,
     }));
-    console.log(value)
   };
 
-  // Function to validate if the input is a valid mobile number (10 digits)
-  const validateMobileNumber = (mobile) => {
-    return /^[0-9]{10}$/.test(mobile); // Checks if it's exactly 10 digits
-  };
-
-  // Function to validate if the input is a valid email address
-  const validateEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email); // Matches a typical email format
-  };
+  const validateMobileNumber = (mobile) => /^[0-9]{10}$/.test(mobile);
+  const validateEmail = (email) =>
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setResponseMessage('');
 
-    const { email, mobile, password } = formData;
+    const { name, email, mobile, password, confirmPass } = formData;
 
-    // Ensure either a valid mobile number or email is provided
-    if (!email && !mobile) {
-      setError('Please provide either a mobile number or an email.');
+    // Required fields validation
+    if (!name || !email || !password || !confirmPass) {
+      setError('Name, Email, Password and Confirm Password are required.');
       return;
     }
 
-    // Validate the email or mobile
+    if (password !== confirmPass) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
     if (mobile && !validateMobileNumber(mobile)) {
       setError('Please enter a valid 10-digit mobile number.');
       return;
     }
 
-    if (email && !validateEmail(email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-
-    // Prepare payload for registration
     const url = 'http://localhost:5000/api/register';
+
     const payload = {
-      email: email || null,  // send null if email is not provided
-      mobile: mobile || null, 
+      name: formData.name,
+      email,
+      mobile: mobile || null,
       password,
+      district: formData.district,
+      pinCode: formData.pinCode,
       state: formData.state,
       address: formData.address,
     };
-    
 
     try {
       const response = await axios.post(url, payload);
-
       if (response.status === 200) {
-        setResponseMessage('Registration successful. Please login.');
+        setResponseMessage('Registration successful. Redirecting...');
       }
-      setTimeout(() => {
-        navigate('/'); // Redirect to home after successful registration
-      }, 2000);
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
-      setResponseMessage(error.response?.data?.message || 'An error occurred');
+      setError(error.response?.data?.message || 'Registration failed.');
     }
-  };
-
-  const navigateToSignIn = () => {
-    navigate('/'); // Redirect to the sign-in page
   };
 
   return (
@@ -98,86 +92,135 @@ function Register() {
       <Navbar />
       <div className='register-mid'>
         <div style={{ width: '402px' }}>
-          <h3>Laundry Service</h3>
-          <p>Doorstep Wash & Dryclean Service</p>
-          <p>Already Have Account</p>
-          <button onClick={navigateToSignIn}>
+          <h3 className='laundry-service'>Laundry Service</h3>
+          <p className='doorstep'>Doorstep Wash & Dryclean Service</p>
+          <p className='already'>Already Have Account</p>
+          <button className="sign-register" onClick={() => navigate('/')}>
             Sign In
           </button>
         </div>
 
-        
-
         <div className='right1'>
-          <h4>REGISTER</h4>
-          <form onSubmit={handleFormSubmit} style={{display:"flex"}}>
+          <h4 className='register1'>REGISTER</h4>
+          <form onSubmit={handleFormSubmit} style={{ display: "flex", position: "relative", top: "35px" }}>
 
-          <div className='right2'>
-          <input
-                type='text'
-                name='name'
-                placeholder='Name'
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-        <input
-                type='text'
-                name='mobile'
-                placeholder='Phone'
-                value={formData.mobile}
-                onChange={handleInputChange}
-              />
-               <input
-                type='text'
-                name='district'
-                placeholder='District'
-                value={formData.district}
-                onChange={handleInputChange}
-              />
-        </div>
+            <div className='left'>
+              <div>
+                <label>Name *</label><br />
+                <input
+                  type='text'
+                  name='name'
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>Phone</label><br />
+                <input
+                  type='text'
+                  name='mobile'
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label>District</label><br />
+                <input
+                  type='text'
+                  name='district'
+                  value={formData.district}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label>Pincode</label><br />
+                <input
+                  type='number'
+                  name='pinCode'
+                  value={formData.pinCode}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label>Confirm Password *</label><br />
+                <input
+                  type='password'
+                  name='confirmPass'
+                  value={formData.confirmPass}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
 
             <div className='mb-3'>
-              <input
-                type='text'
-                name='email'
-                placeholder='Email'
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            
-              <input
-                type='text'
-                name='state'
-                placeholder='State'
-                value={formData.state}
-                onChange={handleInputChange}
-              />
-              <input
-                type='text'
-                name='address'
-                placeholder='Address'
-                value={formData.address}
-                onChange={handleInputChange}
-              />
-              <input
-                type='password'
-                name='password'
-                placeholder='Password'
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-           
-            {error && <p className='text-danger'>{error}</p>}
-            <button type='submit' className='btn btn-primary w-100'>
-              Register
-            </button>
+              <div>
+                <label>Email *</label><br />
+                <input
+                  type='text'
+                  name='email'
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label>State</label><br />
+                <input
+                  type='text'
+                  name='state'
+                  value={formData.state}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label>Address</label><br />
+                <input
+                  type='text'
+                  name='address'
+                  value={formData.address}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label>Password *</label><br />
+                <input
+                  type='password'
+                  name='password'
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', top: '55px', left:"-330px" }}>
+                <input
+                  type="checkbox"
+                  name="agreement"
+                  required
+                  style={{ marginTop: '42px' }}
+                />
+                <span style={{ fontSize: '14px', whiteSpace: 'nowrap',textDecoration:"underline",letterSpacing:"1px" }}>
+                  I agree to <a href="#">Terms & Conditions</a> receiving marketing and promotional materials
+                </span>
+              </label>
+
+
+              {error && <p className='text-danger'>{error}</p>}
+              {responseMessage && <p className='text-success'>{responseMessage}</p>}
+              <button type='submit' className='btn1'>Register</button>
             </div>
           </form>
-          <p>{responseMessage}</p>
         </div>
       </div>
-
       <Footer />
     </div>
   );

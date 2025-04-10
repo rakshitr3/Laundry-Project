@@ -1,0 +1,69 @@
+.laundry-service {
+    position:relative;
+    top: 220px;
+left: 69px;
+width: 284px;
+height: 197px;
+text-align: left;
+font: normal normal 900 62px/80px Avenir;
+letter-spacing: 2.48px;
+color: #5861AE;
+}
+
+.doorstep {
+    position: relative;
+    top: 130px;
+left: 72px;
+width: 175px;
+height: 59px;
+text-align: left;
+font: normal normal normal 20px/32px Avenir;
+letter-spacing: 0.8px;
+color: #565657;
+}
+
+.already {
+    position:relative;
+    top: 230px;
+left: 72px;
+width: 171px;
+height: 22px;
+text-align: left;
+font: normal normal normal 16px/26px Avenir;
+letter-spacing: 0.64px;
+color: #565657;
+}
+
+.sign-register {
+    position: relative;
+    top: 250px;
+left: 69px;
+width: 150px;
+height: 50px;
+border: 2px solid #5861AE;
+border-radius: 4px;
+color:#5861AE;
+}
+
+.register1 {
+    position:relative;
+    top: 20px;
+left: 95px;
+width: 157px;
+height: 44px;
+text-align: left;
+font: normal normal 500 32px/60px Avenir;
+letter-spacing: 1.28px;
+color: #5861AE;
+}
+
+.btn1 {
+    position: relative;
+    top: 35px;
+  left: -155px;
+  width: 150px;
+  height: 50px;
+  background: #5861AE 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  color:white;
+  }
