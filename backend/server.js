@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const Order = require("./models/Order");
 
 const app = express();
 const PORT = 5000;
@@ -154,7 +155,42 @@ app.get('/api/protected', (req, res) => {
   });
 });
 
+
+
+//Orders Routes
+
+app.post("/api/orders", async (req, res) => {
+  console.log(req.body);
+  try {
+    const order = await Order.create(req.body);
+    res.status(201).send(order);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
+app.get("/api/orders", async (req, res) => { 
+  const orders = await Order.find(); 
+  res.send(orders); 
+});
+
 // START SERVER
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
