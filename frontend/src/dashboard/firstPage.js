@@ -1,12 +1,20 @@
 import React from 'react';
 import DashboardNav from './dashboardNav';
 import { useNavigate } from 'react-router-dom';
+import VerticalNav from '../utils/VerticalNav';
 
 const FirstPage = () => {
     const navigate = useNavigate();
     return (
-        <div>
+        <div style={{width: "1440px",
+            height: "931px"}}>
             <DashboardNav />
+            <div className='middle-dash'>
+                <div>
+                <VerticalNav />
+                </div>
+           
+            <div style={{height:"931px"}}>
             <div style={{ height: "900px", width: "1400px" }}>
                 <h3 style={{position: "relative",left:"30px",top:"20px"}}>Orders | 0</h3>
                 <div style={{ position: "relative", top: "50%", left: "50%" }}>
@@ -28,6 +36,14 @@ const FirstPage = () => {
                     </button>
                 </div>
             </div>
+            </div>
+           
+            </div>
+
+
+          
+       
+       
             <div className='last-footer'>2021 &copy; Laundry</div>
         </div>
     );

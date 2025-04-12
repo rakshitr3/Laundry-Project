@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import Summary from "./Summary";
+import washing from "../img/washing-machine.svg";
+import towel from "../img/towel.svg";
+import ironing from "../img/ironing.svg";
+import bleach from "../img/bleach.svg";
 
+// Item names and wash types
 const items = ["Shirts", "T Shirts", "Trousers", "Jeans", "Boxers", "Joggers", "Others"];
-const washTypes = ["Washing", "Ironing", "Dry Wash", "Chemical Wash"];
 
+const washTypes = [
+  { type: "Washing", icon: washing },
+  { type: "Ironing", icon: ironing },
+  { type: "Dry Wash", icon: towel },
+  { type: "Chemical Wash", icon: bleach },
+];
+
+// Base item prices
 const prices = {
   Shirts: 20,
   "T Shirts": 15,
@@ -14,6 +26,7 @@ const prices = {
   Others: 50,
 };
 
+// Extra price per wash type
 const washTypePrices = {
   Washing: 10,
   Ironing: 15,
@@ -99,55 +112,89 @@ function CreateOrder() {
     <div>
       <h2>Create Order</h2>
       {items.map((item) => (
-        <div key={item} style={{ marginBottom: "20px", borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
+        <div
+          key={item}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "20px",
+            borderBottom: "1px solid #ccc",
+            paddingBottom: "10px",
+          }}
+        >
           <strong>{item}</strong>
           <input
             type="number"
             min="0"
             value={quantities[item] || ""}
             onChange={(e) => handleQtyChange(item, e.target.value)}
-            style={{ marginLeft: "10px", marginRight: "10px" }}
+            style={{ margin: "10px 0", width: "80px" }}
           />
-          {washTypes.map((type) => (
-            <label key={type} style={{ marginRight: "10px" }}>
-              <input
-                type="checkbox"
-                checked={washSelections[item]?.includes(type) || false}
-                onChange={() => handleWashToggle(item, type)}
-              />
-              {type}
-            </label>
-          ))}
 
-         <div>
-  Price: {quantities[item] || 0} <span style={{ fontSize: '12px' }}>✖</span> &nbsp;
- 
-  {(quantities[item] && washSelections[item]?.length)
-    ? prices[item] + washSelections[item].reduce((acc, wash) => acc + washTypePrices[wash], 0)
-    : 0
-  } = {getPrice(item)}
-</div>
- {/*<div>Price: ₹{getPrice(item)}</div>*/}
+          {/* Wash type icons */}
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {washTypes.map(({ type, icon }) => {
+              const isSelected = washSelections[item]?.includes(type);
+              return (
+                <div
+                  key={type}
+                  onClick={() => handleWashToggle(item, type)}
+                  style={{
+                    cursor: "pointer",
+                    padding: "10px",
+                    borderRadius: "6px",
+                    backgroundColor: isSelected ? "#5861AE" : "#f0f0f0",
+                    color: isSelected ? "#fff" : "#000",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minWidth: "80px",
+                    fontSize: "14px",
+                    border: isSelected ? "2px solid #0056b3" : "1px solid #ccc",
+                  }}
+                >
+                  <img src={icon} alt={type} style={{ width: "30px", height: "30px" }} />
+                
+                </div>
+              );
+            })}
+          </div>
 
-          <button onClick={() => handleReset(item)} style={{ marginTop: "5px" }}>
-            Reset
-          </button>
+          {/* Show price only if wash type is selected */}
+          {washSelections[item]?.length > 0 && (
+            <div style={{ marginTop: "10px" }}>
+              Price: {quantities[item] || 0} <span style={{ fontSize: '12px' }}>✖</span> &nbsp;
+              {prices[item] + washSelections[item].reduce((acc, wash) => acc + washTypePrices[wash], 0)} = ₹{getPrice(item)}
+            </div>
+          )}
+
+          {/* Show Reset button only if wash type is selected */}
+          {washSelections[item]?.length > 0 && (
+            <button onClick={() => handleReset(item)} style={{ marginTop: "10px" }}>
+              Reset
+            </button>
+          )}
         </div>
       ))}
+
       <div style={{ fontWeight: "bold", marginTop: "20px" }}>
         Total: ₹{getTotal()}
       </div>
 
-<button onClick={() => {
-  setQuantities({});
-  setWashSelections({});
-}} style={{ marginTop: "10px", marginRight: "10px" }}>
-  Cancel
-</button>
+      <div style={{ marginTop: "20px" }}>
+        <button
+          onClick={() => {
+            setQuantities({});
+            setWashSelections({});
+          }}
+          style={{ marginRight: "10px" }}
+        >
+          Cancel
+        </button>
 
-      <button onClick={handleProceed} style={{ marginTop: "10px" }}>
-        Proceed
-      </button>
+        <button onClick={handleProceed}>Proceed</button>
+      </div>
     </div>
   );
 }

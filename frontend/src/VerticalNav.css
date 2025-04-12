@@ -1,0 +1,26 @@
+.middle-dash {
+    display:flex;
+    height:900px;
+}
+
+.vertical-navbar {
+    display: flex;
+    flex-direction: column;
+    background-color:#5861AE;
+    padding: 1rem;
+    width: 57px;
+height: 933px;
+    align-items: center;
+  }
+  
+  .vertical-navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    margin: 15px 0;
+    transition: color 0.3s ease;
+  }
+  
+  .vertical-navbar a:hover {
+    color: #61dafb;
+  }
