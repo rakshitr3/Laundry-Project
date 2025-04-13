@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from './utils/Navbar';
 import { useNavigate } from 'react-router-dom'; 
 import Footer from './utils/Footer';
+import lock from "./img/padlock.svg"
 
 function App() {
   const [emailOrMobile, setEmailOrMobile] = useState('');
@@ -103,6 +104,7 @@ function App() {
                 Password
               </label>
               <br/>
+              <img style={{position: "relative",left:"465px"}} src={lock} alt='padlock-img'/>
               <input
                 type="password"
                 name="password"

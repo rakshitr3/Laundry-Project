@@ -1,5 +1,8 @@
 import React from 'react'
 import '../App.css'
+import facebook from "../img/facebook.svg"
+import insta from "../img/instagram.svg"
+import linkdin from "../img/linkedin.svg"
 
 const Footer = () => {
   return (
@@ -20,7 +23,16 @@ const Footer = () => {
         <div><h2>Pricing</h2></div>
         <div><h2>Career</h2><p>Blogs</p><p>Create</p></div>
         <div><h2>Contact</h2></div>
-        <div><h2>SOCIAL MEDIA</h2></div>
+        <div>
+  <h2>SOCIAL MEDIA</h2>
+  <div style={{display:"flex",gap:"40px",padding:"4px"}}>
+  <img src={facebook} alt="Facebook" />
+  <img src={insta} alt="Instagram" />
+  <img src={linkdin} alt="LinkedIn" />
+  </div>
+ 
+</div>
+
       </div>
       </div>
 

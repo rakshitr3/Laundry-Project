@@ -1,13 +1,34 @@
 import React, { useState } from "react";
 import Summary from "./Summary";
+import "./CreateOrder.css";
+
+// Images
 import washing from "../img/washing-machine.svg";
 import towel from "../img/towel.svg";
 import ironing from "../img/ironing.svg";
 import bleach from "../img/bleach.svg";
+import search from "../img/search.svg";
 
-// Item names and wash types
-const items = ["Shirts", "T Shirts", "Trousers", "Jeans", "Boxers", "Joggers", "Others"];
+import shirt from "../img/shirt.jpg"
+import tshirt from "../img/t-shirt.png"
+import trousers from "../img/trousers.jpg"
+import jeans from "../img/jeans.avif"
+import boxers from "../img/boxers.jpg"
+import joggers from "../img/joggers.jpg"
+import others from "../img/cloths.jpg"
 
+
+const items = [
+  { name: "Shirts", icon: <img src={shirt} alt="Shirt" style={{ height: "30px",width:"35px" }} /> },
+  { name: "T Shirts", icon: <img src={tshirt} alt="t-shirt" style={{ height: "30px",width:"35px" }} />},
+  { name: "Trousers", icon: <img src={trousers} alt="trousers" style={{ height: "30px",width:"35px" }} />},
+  { name: "Jeans", icon: <img src={jeans} alt="jeans" style={{ height: "30px",width:"35px" }} />},
+  { name: "Boxers", icon: <img src={boxers} alt="boxers" style={{ height: "30px",width:"35px" }} /> },
+  { name: "Joggers", icon: <img src={joggers} alt="joggers" style={{ height: "30px",width:"35px" }} /> },
+  { name: "Others", icon: <img src={others} alt="others" style={{ height: "30px",width:"35px" }} /> },
+];
+
+// Wash types
 const washTypes = [
   { type: "Washing", icon: washing },
   { type: "Ironing", icon: ironing },
@@ -15,18 +36,7 @@ const washTypes = [
   { type: "Chemical Wash", icon: bleach },
 ];
 
-// Base item prices
-const prices = {
-  Shirts: 20,
-  "T Shirts": 15,
-  Trousers: 25,
-  Jeans: 30,
-  Boxers: 10,
-  Joggers: 100,
-  Others: 50,
-};
-
-// Extra price per wash type
+// Wash prices
 const washTypePrices = {
   Washing: 10,
   Ironing: 15,
@@ -71,30 +81,31 @@ function CreateOrder() {
     });
   };
 
-  const getPrice = (item) => {
-    const qty = quantities[item];
-    const selectedWashes = washSelections[item];
-    if (!qty || !selectedWashes || selectedWashes.length === 0) return 0;
-
-    const basePrice = prices[item];
-    const washExtra = selectedWashes.reduce(
+  const getWashSum = (item) => {
+    const selectedWashes = washSelections[item] || [];
+    return selectedWashes.reduce(
       (acc, wash) => acc + (washTypePrices[wash] || 0),
       0
     );
+  };
 
-    return qty * (basePrice + washExtra);
+  const getPrice = (item) => {
+    const qty = quantities[item];
+    const washSum = getWashSum(item);
+    if (!qty || washSum === 0) return 0;
+    return qty * washSum;
   };
 
   const getTotal = () => {
-    return items.reduce((acc, item) => acc + getPrice(item), 0);
+    return items.reduce((acc, { name }) => acc + getPrice(name), 0);
   };
 
   const selectedItems = items
-    .map((item) => ({
-      type: item,
-      quantity: quantities[item],
-      washType: washSelections[item],
-      price: getPrice(item),
+    .map(({ name }) => ({
+      type: name,
+      quantity: quantities[name],
+      washType: washSelections[name],
+      price: getPrice(name),
     }))
     .filter((item) => item.quantity > 0 && item.washType?.length > 0);
 
@@ -110,79 +121,111 @@ function CreateOrder() {
     />
   ) : (
     <div>
-      <h2>Create Order</h2>
-      {items.map((item) => (
-        <div
-          key={item}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginBottom: "20px",
-            borderBottom: "1px solid #ccc",
-            paddingBottom: "10px",
-          }}
-        >
-          <strong>{item}</strong>
-          <input
-            type="number"
-            min="0"
-            value={quantities[item] || ""}
-            onChange={(e) => handleQtyChange(item, e.target.value)}
-            style={{ margin: "10px 0", width: "80px" }}
-          />
+      <h2 style={{color: "black", position: "relative",top: "27px",left:"50px"}}>Create Order</h2>
 
-          {/* Wash type icons */}
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {washTypes.map(({ type, icon }) => {
-              const isSelected = washSelections[item]?.includes(type);
-              return (
-                <div
-                  key={type}
-                  onClick={() => handleWashToggle(item, type)}
-                  style={{
-                    cursor: "pointer",
-                    padding: "10px",
-                    borderRadius: "6px",
-                    backgroundColor: isSelected ? "#5861AE" : "#f0f0f0",
-                    color: isSelected ? "#fff" : "#000",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minWidth: "80px",
-                    fontSize: "14px",
-                    border: isSelected ? "2px solid #0056b3" : "1px solid #ccc",
-                  }}
-                >
-                  <img src={icon} alt={type} style={{ width: "30px", height: "30px" }} />
+      <img
+        style={{ position: "relative", right: "-1145px", bottom: "20px" }}
+        src={search}
+        alt="search icon"
+      />
+      <input
+        style={{ position: "relative", width: "15%", right: "-1130px",bottom: "25px" }}
+      />
+
+      <table>
+        <thead>
+          <tr>
+            <th><span style={{position: "relative",left:"-170px"}}> Product Type</span></th>
+            <th><span style={{position: "relative",left:"-20px"}}> Quantity</span></th>
+            <th><span style={{position: "relative",left:"-170px"}}> Wash Type</span></th>
+            <th><span style={{position: "relative",left:"-35px"}}> Price</span></th>
+            <th><span style={{position: "relative",left:"-170px"}}> &nbsp;</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(({ name, icon }) => {
+            const selectedWashes = washSelections[name] || [];
+            const qty = quantities[name] || 0;
+            const washSum = getWashSum(name);
+            const price = getPrice(name);
+
+            return (
+              <tr key={name}>
+                <td style={{ padding: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{ fontSize: "24px" }}>{icon}</span>
+                  <div style={{display:"flex",flexDirection:"column"}}>
+                  <strong>{name}</strong>
+                  <div>lorem ipsum is simply dummy text of the</div>
+                  </div>
+                  
+                </td>
                 
-                </div>
-              );
-            })}
-          </div>
+                <td style={{ padding: "10px" }}>
+                  <input
+                    type="number"
+                    min="0"
+                    value={quantities[name] || ""}
+                    onChange={(e) => handleQtyChange(name, e.target.value)}
+                    style={{
+                      width: "60px",
+                      padding: "5px",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                      boxShadow: "inset 0 1px 2px rgba(0,0,0,0.1)"
+                    }}
+                  />
+                </td>
 
-          {/* Show price only if wash type is selected */}
-          {washSelections[item]?.length > 0 && (
-            <div style={{ marginTop: "10px" }}>
-              Price: {quantities[item] || 0} <span style={{ fontSize: '12px' }}>✖</span> &nbsp;
-              {prices[item] + washSelections[item].reduce((acc, wash) => acc + washTypePrices[wash], 0)} = ₹{getPrice(item)}
-            </div>
-          )}
 
-          {/* Show Reset button only if wash type is selected */}
-          {washSelections[item]?.length > 0 && (
-            <button onClick={() => handleReset(item)} style={{ marginTop: "10px" }}>
-              Reset
-            </button>
-          )}
-        </div>
-      ))}
+                <td style={{ padding: "10px" }}>
+                  <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                    {washTypes.map(({ type, icon }) => {
+                      const isSelected = selectedWashes.includes(type);
+                      return (
+                        <div
+                          key={type}
+                          className={`wash-option ${isSelected ? "selected" : ""}`}
+                          onClick={() => handleWashToggle(name, type)}
+                        >
+                          <img src={icon} alt={type} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </td>
+               
+                <td style={{ padding: "10px", width: "100px" }}>
+                  {qty > 0 && washSum > 0 ? (
+                    <>
+                      <span style={{ fontWeight: "bold" }}>{qty}</span>
+                      <span style={{ fontWeight: "bold" }}> × </span>
+                      <span style={{ fontWeight: "bold" }}>{washSum}</span>
+                      <span style={{ fontWeight: "bold" }}> = </span>
+                      <span style={{ fontSize: "1.3em", color: "#5861AE",fontWeight:"bold" }}>{price}</span>
+                    </>
+                  ) : (
+                    "__"
+                  )}
+                </td>
 
-      <div style={{ fontWeight: "bold", marginTop: "20px" }}>
-        Total: ₹{getTotal()}
-      </div>
+                <td style={{ padding: "10px", width: "80px", textAlign: "center" }}>
+                  <button
+                    onClick={() => handleReset(name)}
+                    style={{
+                      visibility: selectedWashes.length > 0 ? "visible" : "hidden",
+                      width: "81px",
+                    }}
+                  >
+                    Reset
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ display:"flex",justifyContent:"right",marginTop: "-35px",marginRight:"-50px" }}>
         <button
           onClick={() => {
             setQuantities({});
@@ -193,7 +236,7 @@ function CreateOrder() {
           Cancel
         </button>
 
-        <button onClick={handleProceed}>Proceed</button>
+        <button onClick={handleProceed} style={{background:"#5861AE",color:"white"}}>Proceed</button>
       </div>
     </div>
   );

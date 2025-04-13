@@ -8,11 +8,12 @@ import ham from "../img/list.svg";
 const VerticalNav = () => {
   return (
     <div className="vertical-navbar">
-      <Link to="/">
-      <MdHome />
+      <Link to="/dashboard">
+      <MdHome style={{position: "relative",top:"13px"}} />
       </Link>
-      <Link to="/create" style={{background:"white",color:"blue",width:"150%",height:"8%"}}>
-      <div style={{position: "relative",top:"35%",left:"35%",color:"#5861AE"}}>
+
+      <Link to="/create" style={{background:"white",color:"blue",width:"150%",height:"6%"}}>
+      <div style={{position: "relative",top:"30%",left:"35%",color:"#5861AE"}}>
       <FaPlusCircle />
       </div>
       
