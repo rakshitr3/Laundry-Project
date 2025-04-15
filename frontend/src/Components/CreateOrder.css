@@ -1,67 +1,179 @@
 table {
-    position: relative;
-    top: -50px;
-    left: 51px;
-    width: 1295px;
-    height: 628px;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid #E0E0E0;
-    border-radius: 2px;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-  
+  position: relative;
+  top: -50px;
+  left: 51px;
+  width: 1295px;
+  height: 628px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #E0E0E0;
+  border-radius: 2px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
 thead {
-    width: 1295px;
-    height: 50px;
-    background: #2F2F2F 0% 0% no-repeat padding-box;
-    color:white;
+  width: 1295px;
+  height: 50px;
+  background: #2F2F2F 0% 0% no-repeat padding-box;
+  color: white;
 }
 
 th {
-    padding:10px;
+  padding: 10px;
 }
 
+
+
 .wash-option {
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    font-size: 12px;
-    color: #000;
-    transition: color 0.3s;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  font-size: 12px;
+  color: #000;
+  transition: color 0.3s;
+}
+
+.wash-option img {
+  width: 25px;
+  height: 25px;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.wash-option.selected {
+  color: #5861AE;
+}
+
+.wash-option.selected img {
+  filter: brightness(0) saturate(100%) invert(24%) sepia(76%) saturate(1603%) hue-rotate(210deg) brightness(94%) contrast(89%);
+}
+
+
+
+button {
+  height: 32px;
+  width: 107px;
+  border: 1px solid #5861AE;
+  border-radius: 4px;
+  background: white;
+  color: #5861AE;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #5861AE;
+  color: white;
+  transition: all 0.3s;
+}
+
+/* ---------- Popup Summary Styling ---------- */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 931px;
+  width: 1440px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+.popup-summary {
+  background: #fff;
+  width: 50%;
+  height: 931px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease forwards;
+  position: relative;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
   }
-  
-  .wash-option img {
-    width: 25px;
-    height: 25px;
-    filter: grayscale(100%);
-    transition: filter 0.3s;
+  to {
+    transform: translateX(0);
   }
-  
-  .wash-option.selected {
-    color: #5861AE;
-  }
-  
-  .wash-option.selected img {
-    filter: brightness(0) saturate(100%) invert(24%) sepia(76%) saturate(1603%) hue-rotate(210deg) brightness(94%) contrast(89%);
+}
+
+/* Close (X) Button */
+.close-btn {
+display:flex;
+justify-content: right;
+  position: relative;
+  top: -33px;
+  right: -640px;
+  font-size: 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color:white;
+}
+
+
+.popup-nav {
+  position: relative;
+  top:-46px;
+  left:-30px;
+    width: 1026px;
+    height: 65px;
+    background:#5861AE 0% 0% no-repeat padding-box;
   }
 
-  button {
-    height: 32px;
-    width:107px;
-    border: 1px solid #5861AE;
-    border-radius: 4px;
-    background:white;
-    color:#5861AE;
-    font-weight:500;
-    letter-spacing:0.5px
+  .second-nav {
+    position: relative;
+    left: -5px;
+    width: 701px;
+    height: 45px;
+    background: #5861AE 0% 0% no-repeat padding-box;
+    color:white; 
   }
+
+  .store-info {
+    display: flex; 
+    gap: 70px;
+    position: relative;
+    top: -46px;
+    background: #F4F9FF;
+    width: 110%;
+    left: -30px;
+    height: 98px;
+  }
+
+/* ---------- Responsive Design ---------- */
+
+@media (max-width: 768px) {
+  table {
+    width: 100%;
+    left: 0;
+    font-size: 14px;
+  }
+
+  .popup-summary {
+    width: 52%;
+    padding: 20px;
+    height:1005px;
+  }
+}
 
  
+  .summary-table {
+    width: 700px;
+    height:auto;
+    padding:10px;
+    border:none;
+  }
   
+
   

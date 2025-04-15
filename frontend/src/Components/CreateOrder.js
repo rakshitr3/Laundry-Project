@@ -9,26 +9,24 @@ import ironing from "../img/ironing.svg";
 import bleach from "../img/bleach.svg";
 import search from "../img/search.svg";
 
-import shirt from "../img/shirt.jpg"
-import tshirt from "../img/t-shirt.png"
-import trousers from "../img/trousers.jpg"
-import jeans from "../img/jeans.avif"
-import boxers from "../img/boxers.jpg"
-import joggers from "../img/joggers.jpg"
-import others from "../img/cloths.jpg"
-
+import shirt from "../img/shirt.jpg";
+import tshirt from "../img/t-shirt.png";
+import trousers from "../img/trousers.jpg";
+import jeans from "../img/jeans.avif";
+import boxers from "../img/boxers.jpg";
+import joggers from "../img/joggers.jpg";
+import others from "../img/cloths.jpg";
 
 const items = [
-  { name: "Shirts", icon: <img src={shirt} alt="Shirt" style={{ height: "30px",width:"35px" }} /> },
-  { name: "T Shirts", icon: <img src={tshirt} alt="t-shirt" style={{ height: "30px",width:"35px" }} />},
-  { name: "Trousers", icon: <img src={trousers} alt="trousers" style={{ height: "30px",width:"35px" }} />},
-  { name: "Jeans", icon: <img src={jeans} alt="jeans" style={{ height: "30px",width:"35px" }} />},
-  { name: "Boxers", icon: <img src={boxers} alt="boxers" style={{ height: "30px",width:"35px" }} /> },
-  { name: "Joggers", icon: <img src={joggers} alt="joggers" style={{ height: "30px",width:"35px" }} /> },
-  { name: "Others", icon: <img src={others} alt="others" style={{ height: "30px",width:"35px" }} /> },
+  { name: "Shirts", icon: <img src={shirt} alt="Shirt" style={{ height: "30px", width: "35px" }} /> },
+  { name: "T Shirts", icon: <img src={tshirt} alt="T-shirt" style={{ height: "30px", width: "35px" }} /> },
+  { name: "Trousers", icon: <img src={trousers} alt="Trousers" style={{ height: "30px", width: "35px" }} /> },
+  { name: "Jeans", icon: <img src={jeans} alt="Jeans" style={{ height: "30px", width: "35px" }} /> },
+  { name: "Boxers", icon: <img src={boxers} alt="Boxers" style={{ height: "30px", width: "35px" }} /> },
+  { name: "Joggers", icon: <img src={joggers} alt="Joggers" style={{ height: "30px", width: "35px" }} /> },
+  { name: "Others", icon: <img src={others} alt="Others" style={{ height: "30px", width: "35px" }} /> },
 ];
 
-// Wash types
 const washTypes = [
   { type: "Washing", icon: washing },
   { type: "Ironing", icon: ironing },
@@ -36,7 +34,6 @@ const washTypes = [
   { type: "Chemical Wash", icon: bleach },
 ];
 
-// Wash prices
 const washTypePrices = {
   Washing: 10,
   Ironing: 15,
@@ -83,10 +80,7 @@ function CreateOrder() {
 
   const getWashSum = (item) => {
     const selectedWashes = washSelections[item] || [];
-    return selectedWashes.reduce(
-      (acc, wash) => acc + (washTypePrices[wash] || 0),
-      0
-    );
+    return selectedWashes.reduce((acc, wash) => acc + (washTypePrices[wash] || 0), 0);
   };
 
   const getPrice = (item) => {
@@ -113,33 +107,21 @@ function CreateOrder() {
     setShowSummary(true);
   };
 
-  return showSummary ? (
-    <Summary
-      items={selectedItems}
-      total={getTotal()}
-      onBack={() => setShowSummary(false)}
-    />
-  ) : (
-    <div>
-      <h2 style={{color: "black", position: "relative",top: "27px",left:"50px"}}>Create Order</h2>
+  return (
+    <div style={{ position: "relative" }}>
+      <h2 style={{ color: "black", position: "relative", top: "27px", left: "50px" }}>Create Order</h2>
 
-      <img
-        style={{ position: "relative", right: "-1145px", bottom: "20px" }}
-        src={search}
-        alt="search icon"
-      />
-      <input
-        style={{ position: "relative", width: "15%", right: "-1130px",bottom: "25px" }}
-      />
+      <img style={{ position: "relative", right: "-1145px", bottom: "20px" }} src={search} alt="search icon" />
+      <input style={{ position: "relative", width: "15%", right: "-1130px", bottom: "25px" }} />
 
       <table>
         <thead>
           <tr>
-            <th><span style={{position: "relative",left:"-170px"}}> Product Type</span></th>
-            <th><span style={{position: "relative",left:"-20px"}}> Quantity</span></th>
-            <th><span style={{position: "relative",left:"-170px"}}> Wash Type</span></th>
-            <th><span style={{position: "relative",left:"-35px"}}> Price</span></th>
-            <th><span style={{position: "relative",left:"-170px"}}> &nbsp;</span></th>
+            <th><span style={{ position: "relative", left: "-170px" }}> Product Type</span></th>
+            <th><span style={{ position: "relative", left: "-20px" }}> Quantity</span></th>
+            <th><span style={{ position: "relative", left: "-170px" }}> Wash Type</span></th>
+            <th><span style={{ position: "relative", left: "-35px" }}> Price</span></th>
+            <th><span style={{ position: "relative", left: "-170px" }}> &nbsp;</span></th>
           </tr>
         </thead>
         <tbody>
@@ -153,13 +135,11 @@ function CreateOrder() {
               <tr key={name}>
                 <td style={{ padding: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
                   <span style={{ fontSize: "24px" }}>{icon}</span>
-                  <div style={{display:"flex",flexDirection:"column"}}>
-                  <strong>{name}</strong>
-                  <div>lorem ipsum is simply dummy text of the</div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <strong>{name}</strong>
+                    <div>lorem ipsum is simply dummy text of the</div>
                   </div>
-                  
                 </td>
-                
                 <td style={{ padding: "10px" }}>
                   <input
                     type="number"
@@ -175,8 +155,6 @@ function CreateOrder() {
                     }}
                   />
                 </td>
-
-
                 <td style={{ padding: "10px" }}>
                   <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                     {washTypes.map(({ type, icon }) => {
@@ -193,7 +171,6 @@ function CreateOrder() {
                     })}
                   </div>
                 </td>
-               
                 <td style={{ padding: "10px", width: "100px" }}>
                   {qty > 0 && washSum > 0 ? (
                     <>
@@ -201,13 +178,12 @@ function CreateOrder() {
                       <span style={{ fontWeight: "bold" }}> × </span>
                       <span style={{ fontWeight: "bold" }}>{washSum}</span>
                       <span style={{ fontWeight: "bold" }}> = </span>
-                      <span style={{ fontSize: "1.3em", color: "#5861AE",fontWeight:"bold" }}>{price}</span>
+                      <span style={{ fontSize: "1.3em", color: "#5861AE", fontWeight: "bold" }}>{price}</span>
                     </>
                   ) : (
                     "__"
                   )}
                 </td>
-
                 <td style={{ padding: "10px", width: "80px", textAlign: "center" }}>
                   <button
                     onClick={() => handleReset(name)}
@@ -225,7 +201,7 @@ function CreateOrder() {
         </tbody>
       </table>
 
-      <div style={{ display:"flex",justifyContent:"right",marginTop: "-35px",marginRight:"-50px" }}>
+      <div style={{ display: "flex", justifyContent: "right", marginTop: "-35px", marginRight: "-50px" }}>
         <button
           onClick={() => {
             setQuantities({});
@@ -236,8 +212,22 @@ function CreateOrder() {
           Cancel
         </button>
 
-        <button onClick={handleProceed} style={{background:"#5861AE",color:"white"}}>Proceed</button>
+        <button onClick={handleProceed} style={{ background: "#5861AE", color: "white" }}>
+          Proceed
+        </button>
       </div>
+
+      {showSummary && (                      //if showSummary true then only summary component called
+        <div className="popup-overlay">
+          <div className="popup-summary">
+            <Summary
+              items={selectedItems}
+              total={getTotal()}
+              onBack={() => setShowSummary(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
