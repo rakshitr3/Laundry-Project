@@ -75,11 +75,11 @@ button:hover {
 /* ---------- Popup Summary Styling ---------- */
 
 .popup-overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 931px;
-  width: 1440px;
+  position: relative;
+  top: -900px;
+  right: 0px;
+  height: 1050px;
+  width: 1445px;
   background: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: flex-end;
@@ -88,8 +88,8 @@ button:hover {
 
 .popup-summary {
   background: #fff;
-  width: 50%;
-  height: 931px;
+  width: 54%;
+  height: 1035px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.3s ease forwards;
   position: relative;
@@ -113,7 +113,7 @@ display:flex;
 justify-content: right;
   position: relative;
   top: -33px;
-  right: -640px;
+  right: -685px;
   font-size: 35px;
   background: none;
   border: none;
@@ -134,7 +134,7 @@ justify-content: right;
   .second-nav {
     position: relative;
     left: -5px;
-    width: 701px;
+    width: 750px;
     height: 45px;
     background: #5861AE 0% 0% no-repeat padding-box;
     color:white; 
@@ -169,10 +169,12 @@ justify-content: right;
 
  
   .summary-table {
+    position:relative;
     width: 700px;
     height:auto;
     padding:10px;
     border:none;
+    background:transparent;
   }
   
 

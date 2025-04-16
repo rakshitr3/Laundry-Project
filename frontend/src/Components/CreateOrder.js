@@ -16,6 +16,7 @@ import jeans from "../img/jeans.avif";
 import boxers from "../img/boxers.jpg";
 import joggers from "../img/joggers.jpg";
 import others from "../img/cloths.jpg";
+import SuccessPopup from "./SuccessPopup";
 
 const items = [
   { name: "Shirts", icon: <img src={shirt} alt="Shirt" style={{ height: "30px", width: "35px" }} /> },
@@ -45,6 +46,7 @@ function CreateOrder() {
   const [quantities, setQuantities] = useState({});
   const [washSelections, setWashSelections] = useState({});
   const [showSummary, setShowSummary] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleQtyChange = (item, qty) => {
     const parsedQty = parseInt(qty) || 0;
@@ -105,6 +107,11 @@ function CreateOrder() {
 
   const handleProceed = () => {
     setShowSummary(true);
+  };
+
+  const handleOrderConfirm = () => {
+    setShowSummary(false);
+    setShowSuccessPopup(true);
   };
 
   return (
@@ -224,8 +231,15 @@ function CreateOrder() {
               items={selectedItems}
               total={getTotal()}
               onBack={() => setShowSummary(false)}
+              onConfirm={handleOrderConfirm}
             />
           </div>
+        </div>
+      )}
+
+{showSuccessPopup && (
+        <div className="centered-success-popup">
+          <SuccessPopup onClose={() => setShowSuccessPopup(false)} />
         </div>
       )}
     </div>

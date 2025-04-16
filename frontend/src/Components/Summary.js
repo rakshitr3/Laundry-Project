@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CreateOrder.css";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import SuccessPopup from "./SuccessPopup"; 
 
-function Summary({ items, total, onBack }) {
+function Summary({ items, total, onBack, onConfirm }) {
   const [store, setStore] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const pickupCharges = 90;
   const grandTotal = total + pickupCharges;
 
-  const [userAddresses, setUserAddresses] = useState([
+  const [userAddresses] = useState([
     "#223, 10th road, JP Nagar, Bangalore",
     "Flat 402, A-block, Sunrise Apartments, Chennai",
   ]);
@@ -36,7 +34,7 @@ function Summary({ items, total, onBack }) {
     };
     try {
       await axios.post("http://localhost:5000/api/orders", order);
-      setShowSuccessPopup(true); // Show popup instead of alert
+      onConfirm(); // ✅ Close Summary and show SuccessPopup in parent
     } catch (error) {
       console.error("Failed to place order:", error);
       alert("Failed to place order. Please try again.");
@@ -56,6 +54,7 @@ function Summary({ items, total, onBack }) {
 
       <div className="summary-details">
         <div className="store-info" id="store-fields">
+          {/* Store Selection */}
           <label style={{ display: "flex", flexDirection: "column", marginBottom: "40px", position: "relative" }}>
             <strong style={{ marginBottom: "5px" }}>Store:</strong>
             <select
@@ -81,23 +80,12 @@ function Summary({ items, total, onBack }) {
                 <option value="Mumbai">Mumbai</option>
               </optgroup>
             </select>
-
-            <span
-              style={{
-                position: "absolute",
-                right: "10px",
-                bottom: "5px",
-                pointerEvents: "none",
-                fontSize: "14px",
-                color: "#555",
-              }}
-            >
-              <div style={{ fontSize: "20px" }}>
-                <MdKeyboardArrowDown />
-              </div>
+            <span style={{ position: "absolute", right: "10px", bottom: "5px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
+              <MdKeyboardArrowDown />
             </span>
           </label>
 
+          {/* Address and Phone */}
           <label style={{ display: "flex", flexDirection: "column", marginBottom: "10px" }}>
             <strong>Store Address:</strong>
             <input
@@ -121,52 +109,31 @@ function Summary({ items, total, onBack }) {
           </label>
         </div>
 
+        {/* Order Summary */}
         <div className="order-details">
           <h3>Order Details:</h3>
           <table className="summary-table">
-            <tbody style={{ position: "relative", top: "30px", left: "-53px" }}>
+            <tbody>
               {items.map((item, idx) => (
                 <tr key={idx}>
-                  <td style={{ borderBottom: "0.5px solid lightgrey" }}>{item.type}</td>
-                  <td style={{ borderBottom: "0.5px solid lightgrey" }}>{item.washType.join(", ")}</td>
-                  <td style={{ borderBottom: "0.5px solid lightgrey" }}>
-                    {item.quantity} x {item.price / item.quantity} =
-                  </td>
-                  <td style={{
-                    borderBottom: "0.5px solid lightgrey",
-                    font: "normal normal 600 20px/27px Open Sans",
-                    letterSpacing: "0.48px",
-                    color: "#5861AE",
-                  }}>
-                    {item.price}
-                  </td>
+                  <td>{item.type}</td>
+                  <td>{item.washType.join(", ")}</td>
+                  <td>{item.quantity} x {item.price / item.quantity} =</td>
+                  <td style={{ color: "#5861AE", fontWeight: "bold" }}>{item.price}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                  <p style={{
-                    borderBottom: "0.5px solid lightgrey",
-                    width: "123px",
-                    position: "relative",
-                    right: "-546px",
-                  }}>
-                    <strong>Sub Total:</strong> {total}
-                  </p>
-                  <p>
-                    <strong>Pickup Charges:</strong> {pickupCharges}
-                  </p>
-                  <h3 className="second-nav">
-                    <strong style={{ fontWeight: "normal", position: "relative", top: "8px" }}>
-                      Total:
-                    </strong>{" "}
-                    Rs {grandTotal}
-                  </h3>
+                  <p><strong>Sub Total:</strong> {total}</p>
+                  <p><strong>Pickup Charges:</strong> {pickupCharges}</p>
+                  <h3><strong>Total:</strong> Rs {grandTotal}</h3>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        {/* Address Section */}
         <div style={{ marginTop: "20px" }}>
           <h3>Address</h3>
           <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
@@ -181,13 +148,19 @@ function Summary({ items, total, onBack }) {
                   borderRadius: "8px",
                   cursor: "pointer",
                   position: "relative",
-                  width: "300px",
+                  width: "200px",
                   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                 }}
               >
                 {addr}
                 {selectedAddress === addr && (
-                  <span style={{ position: "absolute", top: "10px", right: "10px", color: "green", fontSize: "20px" }}>
+                  <span style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    color: "green",
+                    fontSize: "20px",
+                  }}>
                     ✓
                   </span>
                 )}
@@ -196,24 +169,18 @@ function Summary({ items, total, onBack }) {
             <div
               onClick={handleAddAddressClick}
               style={{
-                border: "2px dashed #1A73E8",
-                padding: "15px",
-                borderRadius: "8px",
-                cursor: "pointer",
-                width: "300px",
-                textAlign: "center",
                 color: "#1A73E8",
                 fontWeight: "bold",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              + Add Address
+              Add New
             </div>
           </div>
         </div>
 
+        {/* Confirm Button */}
         <div className="summary-buttons" style={{ marginTop: "30px" }}>
           <button
             onClick={handleConfirm}
@@ -232,9 +199,6 @@ function Summary({ items, total, onBack }) {
           </button>
         </div>
       </div>
-
-      {/* Success Popup */}
-      {showSuccessPopup && <SuccessPopup onClose={onBack} />}
     </div>
   );
 }

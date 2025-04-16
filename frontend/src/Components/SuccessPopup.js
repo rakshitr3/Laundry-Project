@@ -7,8 +7,8 @@ function SuccessPopup({ onClose }) {
         position: "fixed",
         top: 0,
         left: 0,
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.4)",
         display: "flex",
         justifyContent: "center",
@@ -52,3 +52,15 @@ function SuccessPopup({ onClose }) {
 }
 
 export default SuccessPopup;
+
+
+/*
+.centered-success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+}
+
+*/
