@@ -34,7 +34,9 @@ function Summary({ items, total, onBack, onConfirm }) {
     };
     try {
       await axios.post("http://localhost:5000/api/orders", order);
-      onConfirm(); // ✅ Close Summary and show SuccessPopup in parent
+
+      onConfirm(); //Close Summary and show SuccessPopup in parent using onConfirm fn that it got from createSummary
+
     } catch (error) {
       console.error("Failed to place order:", error);
       alert("Failed to place order. Please try again.");
@@ -54,9 +56,8 @@ function Summary({ items, total, onBack, onConfirm }) {
 
       <div className="summary-details">
         <div className="store-info" id="store-fields">
-          {/* Store Selection */}
+       
           <label style={{ display: "flex", flexDirection: "column", marginBottom: "40px", position: "relative" }}>
-            <strong style={{ marginBottom: "5px" }}>Store:</strong>
             <select
               value={store}
               onChange={(e) => setStore(e.target.value)}
@@ -69,9 +70,10 @@ function Summary({ items, total, onBack, onConfirm }) {
                 fontSize: "16px",
                 outline: "none",
                 cursor: "pointer",
+                position:"relative",top:"20px",left:"20px"
               }}
             >
-              <option value="" disabled hidden>Select Store</option>
+              <option value="" disabled hidden>Store Location</option>
               <optgroup label="Available Stores">
                 <option value="Jp Nagar">Jp Nagar</option>
                 <option value="Mangalore">Mangalore</option>
@@ -80,53 +82,51 @@ function Summary({ items, total, onBack, onConfirm }) {
                 <option value="Mumbai">Mumbai</option>
               </optgroup>
             </select>
-            <span style={{ position: "absolute", right: "10px", bottom: "5px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
+            <span style={{ position: "absolute", right: "-15px", bottom: "10px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
               <MdKeyboardArrowDown />
             </span>
           </label>
 
           {/* Address and Phone */}
-          <label style={{ display: "flex", flexDirection: "column", marginBottom: "10px" }}>
+          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"black",marginTop:"15px"}}>
             <strong>Store Address:</strong>
             <input
               type="text"
               value={storeAddress}
               onChange={(e) => setStoreAddress(e.target.value)}
-              placeholder="Enter store address"
-              style={{ marginTop: "5px" }}
+              style={{ width:"30px",marginTop:"-10px" }}
             />
           </label>
 
-          <label style={{ display: "flex", flexDirection: "column", marginBottom: "10px" }}>
-            <strong>Phone:</strong>
+          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"black",marginTop:"15px" }}>
+            <strong>Phone</strong>
             <input
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="Enter phone number"
-              style={{ marginTop: "5px" }}
+              style={{ width:"30px",marginTop:"-10px" }}
             />
           </label>
         </div>
 
         {/* Order Summary */}
         <div className="order-details">
-          <h3>Order Details:</h3>
-          <table className="summary-table">
+          <h4 style={{position:"relative",left:"10px",color:"grey"}}>Order Details:</h4>
+          <table className="summary-table" style={{borderSpacing:"20px"}}>
             <tbody>
               {items.map((item, idx) => (
                 <tr key={idx}>
-                  <td>{item.type}</td>
-                  <td>{item.washType.join(", ")}</td>
-                  <td>{item.quantity} x {item.price / item.quantity} =</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey"}}>{item.type}</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey",fontStyle:"italic"}}>{item.washType.join(", ")}</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey"}}>{item.quantity} x {item.price / item.quantity} =</td>
                   <td style={{ color: "#5861AE", fontWeight: "bold" }}>{item.price}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                  <p><strong>Sub Total:</strong> {total}</p>
-                  <p><strong>Pickup Charges:</strong> {pickupCharges}</p>
-                  <h3><strong>Total:</strong> Rs {grandTotal}</h3>
+                  <p style={{borderBottom:"0.5px solid lightgrey"}}>Sub Total: <strong> {total}</strong></p>
+                  <p> Pickup Charges: <strong>{pickupCharges} </strong></p>
+                  <h3 style={{color:"white", background:"#5861AE",width:"700px",height:"49px"}}><span style={{position:"relative",top:"10px",right:"10px"}}>  Total: &nbsp; &nbsp;<strong>Rs {grandTotal}</strong> </span></h3>
                 </td>
               </tr>
             </tbody>
@@ -180,17 +180,22 @@ function Summary({ items, total, onBack, onConfirm }) {
           </div>
         </div>
 
-        {/* Confirm Button */}
-        <div className="summary-buttons" style={{ marginTop: "30px" }}>
+   
+        <div className="summary-buttons" style={{ marginTop: "30px",width: "926px",height: "70px",background:"#F4F4F4",boxShadow: "0px -3px 6px #00000015" }}>
           <button
             onClick={handleConfirm}
             disabled={!isButtonEnabled}
             style={{
-              backgroundColor: isButtonEnabled ? "#1A73E8" : "#ADD8E6",
+              backgroundColor: isButtonEnabled ? "#5861AE" : "#9CA3D9",
               color: "white",
               padding: "10px 20px",
               border: "none",
               borderRadius: "4px",
+              height:"42px",
+              width:"150px",
+              position:"relative",
+              top:"15px",
+              left:"640px",
               cursor: isButtonEnabled ? "pointer" : "not-allowed",
               fontSize: "16px",
             }}

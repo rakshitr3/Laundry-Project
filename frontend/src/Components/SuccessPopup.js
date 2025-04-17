@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { TiTick } from "react-icons/ti";
 
-function SuccessPopup({ onClose }) {
+function SuccessPopup() {
+  const navigate = useNavigate();
+
+  const handleGoToOrders = () => {
+    navigate("/orders");
+  };
   return (
     <div
       style={{
@@ -31,17 +38,22 @@ function SuccessPopup({ onClose }) {
           textAlign: "center",
         }}
       >
-        <h3 style={{ marginBottom: "20px" }}>Your order is successfully placed!</h3>
+       <div style={{width: "120px",height: "120px",background: "#5861AE60",borderRadius:"100px"}}> 
+        <TiTick style= {{width: "70px",height:"70px",color:"#5861AE",position:"relative",top:"20%"}}/> </div> 
+        <h3 style={{ marginBottom: "20px" }}>Your order is<br/> successfully placed!</h3>
+        <p>You can track the delivery in the<br/> "Orders" section.</p>
         <button
-          onClick={onClose}
+        onClick={handleGoToOrders}
           style={{
-            backgroundColor: "#1A73E8",
             color: "white",
             padding: "10px 20px",
             border: "none",
-            borderRadius: "4px",
+            borderRadius: "22px",
             cursor: "pointer",
             fontSize: "16px",
+            width: "235px",
+            height: "44px",
+            background: "#5861AE"
           }}
         >
           Go to Orders

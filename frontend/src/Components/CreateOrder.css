@@ -170,6 +170,8 @@ justify-content: right;
  
   .summary-table {
     position:relative;
+    top:-5px;
+    left:15px;
     width: 700px;
     height:auto;
     padding:10px;

@@ -147,7 +147,7 @@ function CreateOrder() {
                     <div>lorem ipsum is simply dummy text of the</div>
                   </div>
                 </td>
-                <td style={{ padding: "10px" }}>
+                <td style={{ padding: "10px",position:"relative",top:"20px" }}>
                   <input
                     type="number"
                     min="0"
@@ -231,7 +231,7 @@ function CreateOrder() {
               items={selectedItems}
               total={getTotal()}
               onBack={() => setShowSummary(false)}
-              onConfirm={handleOrderConfirm}
+              onConfirm={handleOrderConfirm}            //sending this function to summary component and then it attached with confirm button there
             />
           </div>
         </div>
@@ -239,7 +239,7 @@ function CreateOrder() {
 
 {showSuccessPopup && (
         <div className="centered-success-popup">
-          <SuccessPopup onClose={() => setShowSuccessPopup(false)} />
+          <SuccessPopup/>
         </div>
       )}
     </div>
