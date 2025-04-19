@@ -5,6 +5,7 @@ import App from './App';
 import FirstPage from './dashboard/firstPage'; 
 import SecondPage from './dashboard/secondPage';
 import Orders from './Components/Orders';
+import OrderDetails from './Components/OrderDetails';
 
 function Routing() {
   return (
@@ -15,6 +16,8 @@ function Routing() {
         <Route path="/dashboard" element={<FirstPage />} /> {/* Route to the Dashboard page */}
         <Route path="/create" element={<SecondPage />} /> {/* Route to the create order page */}
         <Route path="/orders" element={<Orders />} /> {/* Route to the Orders page */}
+        <Route path="/order/:id" element={<OrderDetails />} />
+
 
       </Routes>
     </Router>

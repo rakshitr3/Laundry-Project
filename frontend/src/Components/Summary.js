@@ -50,7 +50,7 @@ function Summary({ items, total, onBack, onConfirm }) {
   return (
     <div className="summary-popup-content">
       <div className="popup-nav">
-        <h2 style={{ position: "relative", color: "white", top: "20px", left: "20px" }}>Summary</h2>
+        <p style={{ position: "relative", color: "white", top: "20px", left: "20px",font: "normal normal 500 22px/25px Open Sans"}}>Summary</p>
         <button className="close-btn" onClick={onBack}>×</button>
       </div>
 
@@ -65,12 +65,13 @@ function Summary({ items, total, onBack, onConfirm }) {
                 appearance: "none",
                 border: "none",
                 borderBottom: "2px solid #ccc",
-                padding: "5px 30px 5px 5px",
+                padding: "5px 30px 13px 5px",
                 backgroundColor: "transparent",
                 fontSize: "16px",
                 outline: "none",
                 cursor: "pointer",
-                position:"relative",top:"20px",left:"20px"
+                position:"relative",top:"20px",left:"20px",
+                color:"lightgrey"
               }}
             >
               <option value="" disabled hidden>Store Location</option>
@@ -82,44 +83,50 @@ function Summary({ items, total, onBack, onConfirm }) {
                 <option value="Mumbai">Mumbai</option>
               </optgroup>
             </select>
-            <span style={{ position: "absolute", right: "-15px", bottom: "10px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
+            <span style={{ position: "absolute", right: "-20px", bottom: "7px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
               <MdKeyboardArrowDown />
             </span>
           </label>
 
           {/* Address and Phone */}
-          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"black",marginTop:"15px"}}>
+          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"grey",marginTop:"15px"}}>
             <strong>Store Address:</strong>
             <input
               type="text"
               value={storeAddress}
+              placeholder="__"
               onChange={(e) => setStoreAddress(e.target.value)}
-              style={{ width:"30px",marginTop:"-10px" }}
+              style={{ border:"none" }}
             />
           </label>
 
-          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"black",marginTop:"15px" }}>
+          <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px",color:"grey",marginTop:"15px" }}>
             <strong>Phone</strong>
             <input
               type="text"
               value={phone}
+              placeholder="__"
               onChange={(e) => setPhone(e.target.value)}
-              style={{ width:"30px",marginTop:"-10px" }}
+              style={{border:"none"}}
             />
           </label>
         </div>
 
         {/* Order Summary */}
         <div className="order-details">
-          <h4 style={{position:"relative",left:"10px",color:"grey"}}>Order Details:</h4>
+          <h4 style={{position:"relative",left:"10px",top:"-30px",color:"grey"}}>Order Details:</h4>
           <table className="summary-table" style={{borderSpacing:"20px"}}>
             <tbody>
               {items.map((item, idx) => (
                 <tr key={idx}>
-                  <td style={{borderBottom:"0.5px solid lightgrey"}}>{item.type}</td>
-                  <td style={{borderBottom:"0.5px solid lightgrey",fontStyle:"italic"}}>{item.washType.join(", ")}</td>
-                  <td style={{borderBottom:"0.5px solid lightgrey"}}>{item.quantity} x {item.price / item.quantity} =</td>
-                  <td style={{ color: "#5861AE", fontWeight: "bold" }}>{item.price}</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal normal 18px/24px Open Sans",letterSpacing: "0.43px",
+color: "#1B2734"}}>{item.type}</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey",font: "italic normal normal 16px/22px Open Sans",
+letterSpacing: "0.38px"}}>{item.washType.join(", ")}</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal 600 17px/30px Open Sans",
+letterSpacing: "0.38px"}}>{item.quantity} x {item.price / item.quantity} =</td>
+                  <td style={{borderBottom:"0.5px solid lightgrey", color: "#5861AE", font: "normal normal 600 22px/27px Open Sans",
+letterSpacing: "0.48px"}}>{item.price}</td>
                 </tr>
               ))}
               <tr>
@@ -181,7 +188,7 @@ function Summary({ items, total, onBack, onConfirm }) {
         </div>
 
    
-        <div className="summary-buttons" style={{ marginTop: "30px",width: "926px",height: "70px",background:"#F4F4F4",boxShadow: "0px -3px 6px #00000015" }}>
+        <div className="summary-buttons" style={{position: "relative",top: "213px",left:"-30px",width: "926px",height: "70px",background:"#F4F4F4",boxShadow: "0px -3px 6px #00000015" }}>
           <button
             onClick={handleConfirm}
             disabled={!isButtonEnabled}

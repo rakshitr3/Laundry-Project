@@ -219,10 +219,13 @@ function CreateOrder() {
           Cancel
         </button>
 
-        <button onClick={handleProceed} style={{ background: "#5861AE", color: "white" }}>
-          Proceed
-        </button>
-      </div>
+        <button
+  onClick={handleProceed}
+  style={{background: "#5861AE",color: "white",
+...(showSummary && { position: "relative", right: "120px" }) 
+}}>Proceed </button>
+
+ </div>
 
       {showSummary && (                      //if showSummary true then only summary component called
         <div className="popup-overlay">

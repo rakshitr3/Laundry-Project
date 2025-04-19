@@ -175,7 +175,23 @@ app.get("/api/orders", async (req, res) => {
   res.send(orders); 
 });
 
-// START SERVER
+app.get('/api/orders/:id', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).send({ message: 'Order not found' });
+    }
+
+    res.send(order);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
