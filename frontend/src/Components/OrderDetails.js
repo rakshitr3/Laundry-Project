@@ -4,11 +4,23 @@ import "./CreateOrder.css";
 
 const STATUS_STEPS = ["Ready to Pickup", "In Washing", "In Ironing", "Ready to Deliver"];
 
-const OrderDetails = ({ order, onClose }) => {
+const STATUS_DISPLAY_NAMES = {
+  "Ready to Pickup": "Picked up",
+  "In Washing": "Washed",
+  "In Ironing": "Ironed",
+  "Ready to Deliver": "Delivered"
+};
+
+
+const OrderDetails = ({ order, onClose, onCancel }) => {
   const [store, setStore] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [showCancelAlert, setShowCancelAlert] = useState(false);
+
+  const [userAddresses] = useState([
+    { title: "Home", address: "#223, 10th road, JP Nagar, Bangalore" }
+  ]);
+  const [selectedAddress, setSelectedAddress] = useState(userAddresses[0].address);
 
   useEffect(() => {
     if (order) {
@@ -22,8 +34,8 @@ const OrderDetails = ({ order, onClose }) => {
 
   const { items, total, status } = order;
   const pickupCharges = 90;
-  const grandTotal = total + pickupCharges;
-  const orderIdShort = order._id.slice(-6).toUpperCase();
+  const subTotal = total - pickupCharges;
+  const grandTotal = total
 
   const getStepClass = (step) => {
     const index = STATUS_STEPS.indexOf(step);
@@ -31,27 +43,34 @@ const OrderDetails = ({ order, onClose }) => {
     return index <= currentIndex ? "step active" : "step";
   };
 
-  const handleCancel = () => {
-    setShowCancelAlert(true);
-  };
-
-  const confirmCancel = () => {
-    setShowCancelAlert(false);
-    onClose();
-  };
-
   return (
     <>
       <div className="summary-popup-content">
         <div className="popup-nav">
-          <p className="popup-title">Summary</p>
+          <p style={{ position: "relative", color: "white", top: "20px", left: "20px", font: "normal normal 500 22px/25px Open Sans" }}>Summary</p>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
         <div className="summary-details">
           <div className="store-info" id="store-fields">
-            <label className="select-wrapper">
-              <select value={store} onChange={(e) => setStore(e.target.value)} className="dropdown-select">
+
+            <label style={{ display: "flex", flexDirection: "column", marginBottom: "40px", position: "relative" }}>
+              <select
+                value={store}
+                onChange={(e) => setStore(e.target.value)}
+                style={{
+                  appearance: "none",
+                  border: "none",
+                  borderBottom: "2px solid #ccc",
+                  padding: "5px 30px 13px 5px",
+                  backgroundColor: "transparent",
+                  fontSize: "16px",
+                  outline: "none",
+                  cursor: "pointer",
+                  position: "relative", top: "20px", left: "20px",
+                  color: "lightgrey"
+                }}
+              >
                 <option value="" disabled hidden>Store Location</option>
                 <optgroup label="Available Stores">
                   <option value="Jp Nagar">Jp Nagar</option>
@@ -61,46 +80,82 @@ const OrderDetails = ({ order, onClose }) => {
                   <option value="Mumbai">Mumbai</option>
                 </optgroup>
               </select>
-              <span className="dropdown-icon"><MdKeyboardArrowDown /></span>
+              <span style={{ position: "absolute", right: "-20px", bottom: "7px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
+                <MdKeyboardArrowDown />
+              </span>
             </label>
 
-            <label className="info-label">
+            {/* Address and Phone */}
+            <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px", color: "grey", marginTop: "15px" }}>
               <strong>Store Address:</strong>
-              <input type="text" value={storeAddress} onChange={(e) => setStoreAddress(e.target.value)} />
+              <input
+                type="text"
+                value={storeAddress}
+                placeholder="__"
+                onChange={(e) => setStoreAddress(e.target.value)}
+                style={{ border: "none" }}
+              />
             </label>
 
-            <label className="info-label">
-              <strong>Phone:</strong>
-              <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px", color: "grey", marginTop: "15px" }}>
+              <strong>Phone</strong>
+              <input
+                type="text"
+                value={phone}
+                placeholder="__"
+                onChange={(e) => setPhone(e.target.value)}
+                style={{ border: "none" }}
+              />
             </label>
-          </div>
+          </div >
 
-          <div className="status-nav">
+          <div style={{ display: "flex" }}>
             {STATUS_STEPS.map((step, i) => (
-              <div key={i} className={getStepClass(step)}>
-                <span className="circle">{i + 1}</span>
-                <span>{step}</span>
+              <div
+                key={i}
+                className={getStepClass(step)}
+                style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+              >
+                <span className="circle"></span>
+                <span className="step-label">&nbsp; {STATUS_DISPLAY_NAMES[step]}</span>
+                {i !== STATUS_STEPS.length - 1 && <div className="line" />}
               </div>
             ))}
           </div>
+        </div>
 
+        <div className="status-nav">
           <div className="order-details">
+            <br /><br />
+            <h4 style={{ position: "relative", left: "10px", top: "-30px", color: "grey" }}>Order Details</h4>
             <table className="summary-table" style={{ borderSpacing: "20px" }}>
               <tbody>
                 {items.map((item, idx) => (
                   <tr key={idx}>
-                    <td>{item.type}</td>
-                    <td>{item.washType.join(", ")}</td>
-                    <td>{item.quantity} x {item.price / item.quantity} =</td>
-                    <td>₹{item.price}</td>
+                    <td style={{
+                      borderBottom: "0.5px solid lightgrey", font: "normal normal normal 20px/24px Open Sans", letterSpacing: "0.43px",
+                      color: "#1B2734"
+                    }}>{item.type}</td>
+                    <td style={{
+                      borderBottom: "0.5px solid lightgrey", font: "italic normal normal 16px/22px Open Sans",
+                      letterSpacing: "0.38px"
+                    }}>{item.washType.join(", ")}</td>
+                    <td style={{
+                      borderBottom: "0.5px solid lightgrey", font: "normal normal 400 17px/30px Open Sans",
+                      letterSpacing: "0.38px"
+                    }}>{item.quantity} x {item.price / item.quantity} =</td>
+                    <td style={{
+                      borderBottom: "0.5px solid lightgrey", color: "#5861AE", font: "normal normal 400 24px/27px Open Sans",
+                      letterSpacing: "0.48px"
+                    }}>₹{item.price}</td>
                   </tr>
                 ))}
                 <tr>
                   <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                    <p>Sub Total: <strong>₹{total}</strong></p>
-                    <p>Pickup Charges: <strong>₹{pickupCharges}</strong></p>
-                    <h3 className="total-price-box">
-                      <span>Total: ₹{grandTotal}</span>
+                    <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "475px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}>₹{subTotal}</strong></td>
+                    <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-23px" }}>Pickup Charges: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}>₹{pickupCharges}</strong></td>
+                    <h3 style={{ color: "white", background: "#5861AE", width: "700px", height: "49px" }}>
+                      <span style={{ position: "relative", top: "10px", right: "10px" }}>Total: ₹{grandTotal}</span>
                     </h3>
                   </td>
                 </tr>
@@ -108,9 +163,48 @@ const OrderDetails = ({ order, onClose }) => {
             </table>
           </div>
 
+          <div style={{ position: "relative", top: "400px", right: "730px" }}>
+            <h3>Address</h3>
+            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+              {userAddresses.map((addrObj, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setSelectedAddress(addrObj.address)}
+                  style={{
+                    border: selectedAddress === addrObj.address ? "1px solid #5861AE" : "1px solid #ccc",
+                    backgroundColor: "#fff",
+                    padding: "15px",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    position: "relative",
+                    width: "200px",
+                    height: "60px",
+                    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <strong>{addrObj.title}</strong>
+                  <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }}>
+                    {addrObj.address}
+                  </div>
+                  {selectedAddress === addrObj.address && (
+                    <span style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      color: "green",
+                      fontSize: "20px",
+                    }}>
+
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+          </div>
           <div className="summary-buttons">
             {status === "Ready to Pickup" && (
-              <button className="cancel-order-btn" onClick={handleCancel}>
+              <button className="cancel-order-btn" onClick={onCancel}>
                 Cancel Order
               </button>
             )}
@@ -118,20 +212,6 @@ const OrderDetails = ({ order, onClose }) => {
         </div>
       </div>
 
-      {showCancelAlert && (
-        <div className="alert-overlay">
-          <div className="alert-box">
-            <div className="alert-header">
-              <span className="alert-title">Alert</span>
-              <button className="close-btn" onClick={() => setShowCancelAlert(false)}>×</button>
-            </div>
-            <div className="alert-body">
-              <p>Are you sure you want to cancel order No: <strong>{orderIdShort}</strong>?</p>
-              <button className="proceed-btn" onClick={confirmCancel}>Proceed</button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };

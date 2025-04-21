@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CreateOrder.css";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import tick from "../img/tick.svg"
 
 function Summary({ items, total, onBack, onConfirm }) {
   const [store, setStore] = useState("");
@@ -13,10 +14,11 @@ function Summary({ items, total, onBack, onConfirm }) {
   const grandTotal = total + pickupCharges;
 
   const [userAddresses] = useState([
-    "#223, 10th road, JP Nagar, Bangalore",
-    "Flat 402, A-block, Sunrise Apartments, Chennai",
+    { title: "Home", address: "#223, 10th road, JP Nagar, Bangalore" },
+    { title: "Other", address: "Flat 402, A-block, Sunrise Apartments, Chennai" },
   ]);
-  const [selectedAddress, setSelectedAddress] = useState(userAddresses[0]);
+  const [selectedAddress, setSelectedAddress] = useState(userAddresses[0].address);
+  
 
   useEffect(() => {
     setIsButtonEnabled(store && storeAddress && phone);
@@ -119,20 +121,20 @@ function Summary({ items, total, onBack, onConfirm }) {
             <tbody>
               {items.map((item, idx) => (
                 <tr key={idx}>
-                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal normal 18px/24px Open Sans",letterSpacing: "0.43px",
+                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal normal 20px/24px Open Sans",letterSpacing: "0.43px",
 color: "#1B2734"}}>{item.type}</td>
                   <td style={{borderBottom:"0.5px solid lightgrey",font: "italic normal normal 16px/22px Open Sans",
 letterSpacing: "0.38px"}}>{item.washType.join(", ")}</td>
-                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal 600 17px/30px Open Sans",
+                  <td style={{borderBottom:"0.5px solid lightgrey",font: "normal normal 400 17px/30px Open Sans",
 letterSpacing: "0.38px"}}>{item.quantity} x {item.price / item.quantity} =</td>
-                  <td style={{borderBottom:"0.5px solid lightgrey", color: "#5861AE", font: "normal normal 600 22px/27px Open Sans",
+                  <td style={{borderBottom:"0.5px solid lightgrey", color: "#5861AE", font: "normal normal 400 24px/27px Open Sans",
 letterSpacing: "0.48px"}}>{item.price}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                  <p style={{borderBottom:"0.5px solid lightgrey"}}>Sub Total: <strong> {total}</strong></p>
-                  <p> Pickup Charges: <strong>{pickupCharges} </strong></p>
+                  <td style={{borderBottom:"0.5px solid lightgrey",display:"flex",justifyContent:"right",gap:"60px",position:"relative",left:"475px",width:"200px"}}>Sub Total: <strong style={{font: "normal normal 400 24px/27px Open Sans"}}> {total}</strong></td>
+                  <td style={{display:"flex",justifyContent:"right",gap:"60px",position:"relative",left:"-23px"}}> Pickup Charges: <strong style={{font: "normal normal 400 24px/27px Open Sans"}}>{pickupCharges} </strong></td>
                   <h3 style={{color:"white", background:"#5861AE",width:"700px",height:"49px"}}><span style={{position:"relative",top:"10px",right:"10px"}}>  Total: &nbsp; &nbsp;<strong>Rs {grandTotal}</strong> </span></h3>
                 </td>
               </tr>
@@ -144,23 +146,27 @@ letterSpacing: "0.48px"}}>{item.price}</td>
         <div style={{ marginTop: "20px" }}>
           <h3>Address</h3>
           <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            {userAddresses.map((addr, idx) => (
+            {userAddresses.map((addrObj, idx) => (
               <div
                 key={idx}
-                onClick={() => setSelectedAddress(addr)}
+                onClick={() => setSelectedAddress(addrObj.address)}
                 style={{
-                  border: selectedAddress === addr ? "2px solid green" : "1px solid #ccc",
+                  border: selectedAddress === addrObj.address ? "1px solid #5861AE" : "1px solid #ccc",
                   backgroundColor: "#fff",
                   padding: "15px",
                   borderRadius: "8px",
                   cursor: "pointer",
                   position: "relative",
                   width: "200px",
+                  height:"60px",
                   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                 }}
               >
-                {addr}
-                {selectedAddress === addr && (
+                <strong>{addrObj.title}</strong>
+                <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }}>
+                  {addrObj.address}
+                </div>
+                {selectedAddress === addrObj.address && (
                   <span style={{
                     position: "absolute",
                     top: "10px",
@@ -168,15 +174,16 @@ letterSpacing: "0.48px"}}>{item.price}</td>
                     color: "green",
                     fontSize: "20px",
                   }}>
-                    ✓
+                    <img src={tick} alt="tick image" />
                   </span>
                 )}
               </div>
             ))}
+
             <div
               onClick={handleAddAddressClick}
               style={{
-                color: "#1A73E8",
+                color: "#5861AE",
                 fontWeight: "bold",
                 display: "flex",
                 alignItems: "center",
@@ -188,7 +195,7 @@ letterSpacing: "0.48px"}}>{item.price}</td>
         </div>
 
    
-        <div className="summary-buttons" style={{position: "relative",top: "213px",left:"-30px",width: "926px",height: "70px",background:"#F4F4F4",boxShadow: "0px -3px 6px #00000015" }}>
+        <div className="summary-buttons1">
           <button
             onClick={handleConfirm}
             disabled={!isButtonEnabled}

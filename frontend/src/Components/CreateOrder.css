@@ -87,10 +87,22 @@ button:hover {
   z-index: 1000;
 }
 
+.popup-overlay1 {
+  position: relative;
+  top: -821px;
+  right: 41px;
+  height: 1050px;
+  width: 1440px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+ }
+
 .popup-summary {
   background: #fff;
-  width: 54%;
-  height: 1035px;
+  width: 53%;
+  height: 1040px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.3s ease forwards;
   position: relative;
@@ -163,13 +175,42 @@ justify-content: right;
 
   .summary-table {
     position:relative;
-    top:-45px;
     left:-5px;
     width: 700px;
     height:auto;
     padding:10px;
     border:none;
     background:transparent;
+  }
+
+.summary-buttons1 {
+  position:relative;
+  top: 270px;
+left: -35px;
+width: 926px;
+height: 70px;
+background: #F4F4F4 0% 0% no-repeat padding-box;
+box-shadow: 0px -3px 6px #00000015;
+}
+
+  .summary-buttons {
+    position:relative;
+    top: 395px;
+left: -35px;
+width: 926px;
+height: 70px;
+background: #F4F4F4 0% 0% no-repeat padding-box;
+box-shadow: 0px -3px 6px #00000015;
+  }
+
+  .cancel-order-btn {
+    position:relative;
+    top:15px;
+    width: 150px;
+height: 42px;
+background: #F41313 0% 0% no-repeat padding-box;
+border-radius: 4px;
+color:white;
   }
 
 
@@ -180,6 +221,14 @@ justify-content: right;
     position:relative;
     top:-50px;
     margin: 20px 0;
+  }
+
+  .line {
+    height: 2px;
+    background-color: #ccc;
+    flex-grow: 1;
+    margin: 0 10px;
+    min-width: 50px; 
   }
   
   .step {
@@ -211,7 +260,6 @@ justify-content: right;
 
   /*alert box css*/
 
-  /* Alert Modal Styles */
 .alert-overlay {
   position: fixed;
   top: 0;
@@ -227,46 +275,72 @@ justify-content: right;
 
 .alert-box {
   background: #fff;
-  border-radius: 8px;
-  width: 320px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  width: 415px;
+height: 210px;
+border-radius: 2px;
 }
 
 .alert-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+    display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      background: #5861AE;
+      color: white;
+      width: 457px;
+      height: 50px;
+      position: relative;
+      left: -20px;
+      top:-21px;
 }
 
 .alert-title {
-  font-weight: bold;
   font-size: 18px;
+  position:relative;
+  top:3px;
+  left:20px;
 }
 
-.alert-body p {
-  margin-bottom: 20px;
-  font-size: 14px;
+.alert-body {
+  display:flex;
+  position:relative;
+  bottom: 20px;
+  right: -40px;
 }
 
-.close-btn {
+.close-btn1 {
   background: transparent;
   border: none;
-  font-size: 22px;
+  font-size: 33px;
   cursor: pointer;
-  color: #333;
+  color: white;
+  position: relative;
+  top:-3px;
+  left:25px;
 }
 
 .proceed-btn {
-  background-color: #ff4d4f;
-  color: white;
-  padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  position:relative;
+  top: 15px;
+left: 150px;
+width: 107px;
+height: 32px;
+background: #5861AE 0% 0% no-repeat padding-box;
+border: 1px solid #5861AE;
+border-radius: 4px;
+color:white;
 }
+
+.order-white {
+  background-color: white !important;
+}
+
+.order-blue {
+  background-color:#FAFAFA !important;
+}
+
 
   
 
