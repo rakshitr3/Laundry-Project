@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import "./CreateOrder.css";
 
 const STATUS_STEPS = ["Ready to Pickup", "In Washing", "In Ironing", "Ready to Deliver"];
@@ -10,7 +10,6 @@ const STATUS_DISPLAY_NAMES = {
   "In Ironing": "Ironed",
   "Ready to Deliver": "Delivered"
 };
-
 
 const OrderDetails = ({ order, onClose, onCancel }) => {
   const [store, setStore] = useState("");
@@ -35,12 +34,20 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
   const { items, total, status } = order;
   const pickupCharges = 90;
   const subTotal = total - pickupCharges;
-  const grandTotal = total
+  const grandTotal = total;
 
   const getStepClass = (step) => {
     const index = STATUS_STEPS.indexOf(step);
     const currentIndex = STATUS_STEPS.indexOf(status);
     return index <= currentIndex ? "step active" : "step";
+  };
+
+  const getCircleColor = (step) => {
+    if (status === "Ready to Pickup") {
+      return "white"; // Circle color becomes white if status is "Ready to Pickup"
+    }
+    // For active steps, color them blue
+    return step === status || STATUS_STEPS.indexOf(step) < STATUS_STEPS.indexOf(status) ? "blue" : "gray";
   };
 
   return (
@@ -51,38 +58,17 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
-        <div className="summary-details">
-          <div className="store-info" id="store-fields">
-
-            <label style={{ display: "flex", flexDirection: "column", marginBottom: "40px", position: "relative" }}>
-              <select
+        <div className="summary-details" style={{ position: "relative", bottom: "30px" }}>
+          <div className="store-info" id="store-fields" style={{ position: "relative", top: "-22px" }}>
+          <label style={{ display: "flex", flexDirection: "column", position:"relative",bottom: "5px", color: "grey",top: "15px",left:"35px" }}>
+              <strong>Store Location</strong>
+              <input
+                type="text"
                 value={store}
+                placeholder="__"
                 onChange={(e) => setStore(e.target.value)}
-                style={{
-                  appearance: "none",
-                  border: "none",
-                  borderBottom: "2px solid #ccc",
-                  padding: "5px 30px 13px 5px",
-                  backgroundColor: "transparent",
-                  fontSize: "16px",
-                  outline: "none",
-                  cursor: "pointer",
-                  position: "relative", top: "20px", left: "20px",
-                  color: "lightgrey"
-                }}
-              >
-                <option value="" disabled hidden>Store Location</option>
-                <optgroup label="Available Stores">
-                  <option value="Jp Nagar">Jp Nagar</option>
-                  <option value="Mangalore">Mangalore</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Mumbai">Mumbai</option>
-                </optgroup>
-              </select>
-              <span style={{ position: "absolute", right: "-20px", bottom: "7px", pointerEvents: "none", fontSize: "20px", color: "#555" }}>
-                <MdKeyboardArrowDown />
-              </span>
+                style={{ border: "none" }}
+              />
             </label>
 
             {/* Address and Phone */}
@@ -107,18 +93,27 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
                 style={{ border: "none" }}
               />
             </label>
-          </div >
+          </div>
 
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", borderBottom: "1px solid lightgrey", height: "50px" }}>
             {STATUS_STEPS.map((step, i) => (
               <div
                 key={i}
                 className={getStepClass(step)}
                 style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
               >
-                <span className="circle"></span>
-                <span className="step-label">&nbsp; {STATUS_DISPLAY_NAMES[step]}</span>
-                {i !== STATUS_STEPS.length - 1 && <div className="line" />}
+                <span className="circle" style={{ backgroundColor: getCircleColor(step) }}>
+                  {getStepClass(step) === "step active" && <FaCheck size={12} />}
+                </span>
+
+                <span className="step-label" style={{ position: "relative", top: "-2px" }}>
+                  &nbsp; {STATUS_DISPLAY_NAMES[step]}
+                </span>
+                {i !== STATUS_STEPS.length - 1 ? (
+                  <div className="line" />
+                ) : (
+                  <div className="half-blue-line" />
+                )}
               </div>
             ))}
           </div>
@@ -128,34 +123,34 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
           <div className="order-details">
             <br /><br />
             <h4 style={{ position: "relative", left: "10px", top: "-30px", color: "grey" }}>Order Details</h4>
-            <table className="summary-table" style={{ borderSpacing: "20px" }}>
+            <table className="summary-table">
               <tbody>
                 {items.map((item, idx) => (
                   <tr key={idx}>
                     <td style={{
-                      borderBottom: "0.5px solid lightgrey", font: "normal normal normal 20px/24px Open Sans", letterSpacing: "0.43px",
+                      borderBottom: "0.5px solid lightgrey", font: "normal normal normal 20px/50px Open Sans", letterSpacing: "0.43px",
                       color: "#1B2734"
                     }}>{item.type}</td>
                     <td style={{
-                      borderBottom: "0.5px solid lightgrey", font: "italic normal normal 16px/22px Open Sans",
+                      borderBottom: "0.5px solid lightgrey", font: "italic normal normal 16px/50px Open Sans",
                       letterSpacing: "0.38px"
                     }}>{item.washType.join(", ")}</td>
                     <td style={{
-                      borderBottom: "0.5px solid lightgrey", font: "normal normal 400 17px/30px Open Sans",
+                      borderBottom: "0.5px solid lightgrey", font: "normal normal 400 17px/50px Open Sans",
                       letterSpacing: "0.38px"
                     }}>{item.quantity} x {item.price / item.quantity} =</td>
                     <td style={{
                       borderBottom: "0.5px solid lightgrey", color: "#5861AE", font: "normal normal 400 24px/27px Open Sans",
                       letterSpacing: "0.48px"
-                    }}>₹{item.price}</td>
+                    }}>{item.price}</td>
                   </tr>
                 ))}
                 <tr>
                   <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                    <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "475px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}>₹{subTotal}</strong></td>
-                    <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-23px" }}>Pickup Charges: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}>₹{pickupCharges}</strong></td>
-                    <h3 style={{ color: "white", background: "#5861AE", width: "700px", height: "49px" }}>
-                      <span style={{ position: "relative", top: "10px", right: "10px" }}>Total: ₹{grandTotal}</span>
+                    <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "493px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 600 24px/27px Open Sans" }}>{subTotal}</strong></td>
+                    <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-30px", top: "10px" }}>Pickup Charges: <strong style={{ font: "normal normal 600 24px/27px Open Sans" }}>{pickupCharges}</strong></td>
+                    <h3 style={{ color: "white", background: "#5861AE", width: "720px", height: "49px" }}>
+                      <span style={{ position: "relative", top: "10px", right: "35px", fontWeight: "400" }}>Total: &nbsp; &nbsp; &nbsp;<strong style={{ fontWeight: "700" }}>Rs {grandTotal}</strong></span>
                     </h3>
                   </td>
                 </tr>
@@ -163,8 +158,8 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
             </table>
           </div>
 
-          <div style={{ position: "relative", top: "400px", right: "730px" }}>
-            <h3>Address</h3>
+          <div style={{ position: "relative", top: "450px", right: "730px" }}>
+            <h3 style={{ color: "grey" }}>Address</h3>
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
               {userAddresses.map((addrObj, idx) => (
                 <div
@@ -200,18 +195,18 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
                 </div>
               ))}
             </div>
+          </div>
 
-          </div>
-          <div className="summary-buttons">
-            {status === "Ready to Pickup" && (
-              <button className="cancel-order-btn" onClick={onCancel}>
-                Cancel Order
-              </button>
-            )}
-          </div>
         </div>
       </div>
 
+      <div className="summary-buttons">
+        {status === "Ready to Pickup" && (
+          <button className="cancel-order-btn" onClick={onCancel}>
+            Cancel Order
+          </button>
+        )}
+      </div>
     </>
   );
 };

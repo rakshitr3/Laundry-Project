@@ -38,12 +38,12 @@ function SuccessPopup() {
           textAlign: "center",
         }}
       >
-       <div style={{width: "120px",height: "120px",background: "#5861AE60",borderRadius:"100px"}}> 
-        <TiTick style= {{width: "70px",height:"70px",color:"#5861AE",position:"relative",top:"20%"}}/> </div> 
-        <h3 style={{ marginBottom: "20px" }}>Your order is<br/> successfully placed!</h3>
-        <p>You can track the delivery in the<br/> "Orders" section.</p>
+        <div style={{ width: "120px", height: "120px", background: "#5861AE60", borderRadius: "100px" }}>
+          <TiTick style={{ width: "70px", height: "70px", color: "#5861AE", position: "relative", top: "20%" }} /> </div>
+        <h3 style={{ marginBottom: "20px" }}>Your order is<br /> successfully placed!</h3>
+        <p>You can track the delivery in the<br /> "Orders" section.</p>
         <button
-        onClick={handleGoToOrders}
+          onClick={handleGoToOrders}
           style={{
             color: "white",
             padding: "10px 20px",

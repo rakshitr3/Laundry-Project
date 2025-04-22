@@ -147,7 +147,7 @@ function CreateOrder() {
                     <div>lorem ipsum is simply dummy text of the</div>
                   </div>
                 </td>
-                <td style={{ padding: "10px",position:"relative",top:"20px" }}>
+                <td style={{ padding: "10px", position: "relative", top: "20px" }}>
                   <input
                     type="number"
                     min="0"
@@ -220,12 +220,13 @@ function CreateOrder() {
         </button>
 
         <button
-  onClick={handleProceed}
-  style={{background: "#5861AE",color: "white",
-...(showSummary && { position: "relative", right: "120px" }) 
-}}>Proceed </button>
+          onClick={handleProceed}
+          style={{
+            background: "#5861AE", color: "white",
+            ...(showSummary && { position: "relative", right: "120px" })
+          }}>Proceed </button>
 
- </div>
+      </div>
 
       {showSummary && (                      //if showSummary true then only summary component called
         <div className="popup-overlay">
@@ -240,9 +241,9 @@ function CreateOrder() {
         </div>
       )}
 
-{showSuccessPopup && (
+      {showSuccessPopup && (
         <div className="centered-success-popup">
-          <SuccessPopup/>
+          <SuccessPopup />
         </div>
       )}
     </div>
