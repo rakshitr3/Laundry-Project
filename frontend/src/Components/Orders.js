@@ -13,6 +13,7 @@ const Orders = () => {
   const [viewOrderId, setViewOrderId] = useState(null);
   const [showCancelAlert, setShowCancelAlert] = useState(false);
   const [pendingCancelOrder, setPendingCancelOrder] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navigate = useNavigate();
 
@@ -57,6 +58,14 @@ const Orders = () => {
 
   const selectedOrder = orders.find(order => order._id === viewOrderId);
 
+  // Filtered orders based on search input
+  const filteredOrders = orders.filter(order => {
+    const idMatch = order._id?.toLowerCase().includes(searchTerm.toLowerCase());
+    const cityMatch = order.store?.toLowerCase().includes(searchTerm.toLowerCase());
+    const locationMatch = order.storeAddress?.toLowerCase().includes(searchTerm.toLowerCase());
+    return idMatch || cityMatch || locationMatch;
+  });
+
   return (
     <div style={{ width: "1440px", height: "931px" }}>
       <DashboardNav />
@@ -66,14 +75,18 @@ const Orders = () => {
           <div style={{ height: "900px", width: "1400px" }}>
             <h3 style={{ position: "relative", left: "30px", top: "20px" }}>
               Orders | {orders.length}
-              <button onClick={() => navigate("/create")} style={{ position: "relative", left: "840px" }}>Create</button>
-              <img style={{ position: "relative", left: "860px" }} src={search} alt='search icon' />
-              <input style={{ position: "relative", width: "15%", left: "870px" }} />
+              <button onClick={() => navigate("/create")} style={{ position: "relative", left: "850px" }}>Create</button>
+              <img style={{ position: "relative", left: "890px" }} src={search} alt='search icon' />
+              <input
+                style={{ position: "relative", width: "15%", left: "870px" }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </h3>
 
-            {orders.length === 0 ? (
+            {filteredOrders.length === 0 ? (
               <div style={{ position: "relative", top: "35%", left: "47%" }}>
-                <p style={{ position: "relative", right: "50px", color: "grey" }}>No Orders available</p>
+                <p style={{ position: "relative", right: "50px", color: "grey" }}>No Orders found</p>
               </div>
             ) : (
               <table style={{ position: "relative", top: "-10px" }}>
@@ -91,7 +104,7 @@ const Orders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order, index) => (
+                  {filteredOrders.map((order, index) => (
                     <tr key={index} style={{ width: "1293px", height: "50px" }}
                       className={
                         index % 2 === 0
@@ -108,23 +121,25 @@ const Orders = () => {
                       <td style={{
                         color: order.status === "Cancelled" ? "red" : "#333"
                       }}>
-                        &nbsp; {order.status}
+                        <div style={{position:"relative",left:"30px"}}>
+                        {order.status}
 
-                        {order.status === "Ready to Pickup" && (
-                          <span
-                            style={{ color: "red", cursor: "pointer", font: "normal normal normal 15px/48px Open Sans" }}
-                            onClick={() => cancelOrder(order._id)}
-                          >
-                            &nbsp; &nbsp; Cancel Order
-                          </span>
-                        )}
+{order.status === "Ready to Pickup" && (
+  <span
+    style={{ color: "red", cursor: "pointer", font: "normal normal normal 15px/48px Open Sans",position:"relative",left:"20px" }}
+    onClick={() => cancelOrder(order._id)}
+  >
+   &nbsp; Cancel Order
+  </span>
+)}
+                        </div>
+                    
                       </td>
                       <td>
                         <FaRegEye
-                          style={{ height: "20px", cursor: "pointer", marginRight: "10px" }}
+                          style={{ height: "20px", cursor: "pointer", position:"relative",left: "15px" }}
                           onClick={() => setViewOrderId(order._id)}
                         />
-
                       </td>
                     </tr>
                   ))}
@@ -156,7 +171,6 @@ const Orders = () => {
                     <button className="close-btn1" onClick={() => setShowCancelAlert(false)}>×</button>
                   </div>
                   <div className="alert-body">
-
                     <FaTriangleExclamation style={{
                       color: "red", position: "relative", top: "53px", marginRight: "20px", width: "34px",
                       height: "30px"
