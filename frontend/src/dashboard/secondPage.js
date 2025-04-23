@@ -2,7 +2,7 @@ import React from 'react'
 import DashboardNav from './dashboardNav'
 import CreateOrder from '../Components/CreateOrder'
 import VerticalNav from '../utils/VerticalNav'
-import '../VerticalNav.css'
+import '../utils/VerticalNav.css'
 
 const SecondPage = () => {
     return (
