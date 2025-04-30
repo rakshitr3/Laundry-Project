@@ -76,7 +76,7 @@ button:hover {
 
 .popup-overlay {
   position: relative;
-  top: -900px;
+  top: -943px;
   right: 62px;
   height: 1050px;
   width: 1445px;
@@ -88,7 +88,7 @@ button:hover {
 
 .popup-overlay1 {
   position: relative;
-  top: -821px;
+  top: -863px;
   right: 62px;
   height: 1050px;
   width: 1440px;
@@ -186,7 +186,7 @@ button:hover {
 
 .summary-buttons1 {
   position: relative;
-  top: 318px;
+  top: 240px;
   left: -35px;
   width: 926px;
   height: 70px;

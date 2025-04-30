@@ -1,3 +1,5 @@
+//same as summary popup this will show order details on clicking of eye button
+
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import "./CreateOrder.css";
@@ -60,7 +62,7 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
 
         <div className="summary-details" style={{ position: "relative", bottom: "30px" }}>
           <div className="store-info" id="store-fields" style={{ position: "relative", top: "-22px" }}>
-          <label style={{ display: "flex", flexDirection: "column", position:"relative",bottom: "5px", color: "grey",top: "15px",left:"35px" }}>
+          <label style={{ display: "flex", flexDirection: "column",gap:"8px", position:"relative",bottom: "5px", color: "grey",top: "15px",left:"35px" }}>
               <strong>Store Location</strong>
               <input
                 type="text"
@@ -72,7 +74,7 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
             </label>
 
             {/* Address and Phone */}
-            <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px", color: "grey", marginTop: "15px" }}>
+            <label style={{ display: "flex", flexDirection: "column",gap:"8px", marginBottom: "5px", color: "grey", marginTop: "15px" }}>
               <strong>Store Address:</strong>
               <input
                 type="text"
@@ -83,14 +85,14 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
               />
             </label>
 
-            <label style={{ display: "flex", flexDirection: "column", marginBottom: "5px", color: "grey", marginTop: "15px" }}>
+            <label style={{ display: "flex", flexDirection: "column",gap:"8px", marginBottom: "5px", color: "grey", marginTop: "15px",marginLeft:"-45px" }}>
               <strong>Phone</strong>
               <input
                 type="text"
                 value={phone}
                 placeholder="__"
                 onChange={(e) => setPhone(e.target.value)}
-                style={{ border: "none" }}
+                style={{ border: "none",position: "relative",left:"-4px" }}
               />
             </label>
           </div>
@@ -140,17 +142,17 @@ const OrderDetails = ({ order, onClose, onCancel }) => {
                       letterSpacing: "0.38px"
                     }}>{item.quantity} x {item.price / item.quantity} =</td>
                     <td style={{
-                      borderBottom: "0.5px solid lightgrey", color: "#5861AE", font: "normal normal 400 24px/27px Open Sans",
-                      letterSpacing: "0.48px"
+                      borderBottom: "0.5px solid lightgrey", color: "#5861AE", font: "normal normal 600 20px/27px Open Sans",
+                      letterSpacing: "0.48px",textAlign:"right",position:"relative",left:"-28px"
                     }}>{item.price}</td>
                   </tr>
                 ))}
                 <tr>
                   <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                    <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "493px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 600 24px/27px Open Sans" }}>{subTotal}</strong></td>
-                    <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-30px", top: "10px" }}>Pickup Charges: <strong style={{ font: "normal normal 600 24px/27px Open Sans" }}>{pickupCharges}</strong></td>
+                    <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "493px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 600 20px/24px Open Sans" }}>{subTotal}</strong></td>
+                    <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-30px", top: "10px" }}>Pickup Charges: <strong style={{ font: "normal normal 600 20px/24px Open Sans" }}>{pickupCharges}</strong></td>
                     <h3 style={{ color: "white", background: "#5861AE", width: "720px", height: "49px" }}>
-                      <span style={{ position: "relative", top: "10px", right: "35px", fontWeight: "400" }}>Total: &nbsp; &nbsp; &nbsp;<strong style={{ fontWeight: "700" }}>Rs {grandTotal}</strong></span>
+                      <span style={{ position: "relative", top: "10px", right: "20px", fontWeight: "400" }}>Total: &nbsp; &nbsp; &nbsp;<strong style={{ font: "normal normal bold 20px/30px Open Sans",letterSpacing: "1.43px"}}>Rs {grandTotal}</strong></span>
                     </h3>
                   </td>
                 </tr>

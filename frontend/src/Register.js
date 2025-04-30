@@ -27,7 +27,7 @@ function Register() {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value,           //handling multiple form fields with one handler //here we make key dynamic
     }));
   };
 
@@ -169,6 +169,10 @@ function Register() {
                   required
                 />
               </div>
+
+              {/* const [email, setEmail] = useState('');
+                  const handleChange = (e) => {
+                  setEmail(e.target.value);};   handling with single state*/}
 
               <div>
                 <label>State</label><br />

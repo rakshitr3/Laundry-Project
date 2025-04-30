@@ -35,7 +35,7 @@ function App() {
   };
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();                   //prevent its default submission behaviour as we need to do some validation or some operation here
 
     if (!validateMobileNumber(emailOrMobile) && !validateEmail(emailOrMobile)) {
       setError('Please enter a valid phone number/email');
@@ -56,6 +56,11 @@ function App() {
       if (response.status === 200) {
         setResponseMessage('Login successful!');
         localStorage.setItem('token', response.data.token);
+        
+        const username = emailOrMobile.includes('@') ? emailOrMobile.split('@')[0] : emailOrMobile.slice(0,5);
+        localStorage.setItem('username', username);
+        
+
       }
       navigate("/dashboard")
     } catch (error) {
@@ -64,7 +69,7 @@ function App() {
   };
 
   const navigateToRegister = () => {
-    navigate('/register');
+    navigate('/register');                     //see routing.js for checking which component is attached to /register route
   };
 
   return (

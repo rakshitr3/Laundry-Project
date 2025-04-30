@@ -1,3 +1,5 @@
+//to show summary popup
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CreateOrder.css";
@@ -37,7 +39,7 @@ function Summary({ items, total, onBack, onConfirm }) {
     try {
       await axios.post("http://localhost:5000/api/orders", order);
 
-      onConfirm(); //Close Summary and show SuccessPopup in parent using onConfirm fn that it got from createSummary
+      onConfirm(); //Close Summary and show SuccessPopup in parent using onConfirm fn that it got from createOrder
 
     } catch (error) {
       console.error("Failed to place order:", error);
@@ -46,7 +48,7 @@ function Summary({ items, total, onBack, onConfirm }) {
   };
 
   const handleAddAddressClick = () => {
-    document.getElementById("store-fields").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("store-fields").scrollIntoView({ behavior: "smooth" });      //we can also use useref here
   };
 
   return (
@@ -124,15 +126,15 @@ function Summary({ items, total, onBack, onConfirm }) {
                     letterSpacing: "0.38px"
                   }}>{item.quantity} x {item.price / item.quantity} =</td>
                   <td style={{
-                    borderBottom: "0.5px solid lightgrey", color: "#5861AE", font: "normal normal 400 24px/27px Open Sans",
+                    borderBottom: "0.5px solid lightgrey", color: "#5861AE",textAlign:"right",position:"relative",right:"32px",font: "normal normal 600 22px/50px Open Sans",
                     letterSpacing: "0.48px"
                   }}>{item.price}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan="4" style={{ textAlign: "right", paddingTop: "10px" }}>
-                  <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "465px", width: "200px" }}>Sub Total: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}> {total}</strong></td>
-                  <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-37px" }}> Pickup Charges: <strong style={{ font: "normal normal 400 24px/27px Open Sans" }}>{pickupCharges} </strong></td>
+                  <td style={{ borderBottom: "0.5px solid lightgrey", display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "465px", width: "200px",top:"3px" }}>Sub Total: <strong style={{ font: "normal normal 600 21px/40px Open Sans",letterSpacing: "0.43px",position:"relative",top:"-7px" }}> {total}</strong></td>
+                  <td style={{ display: "flex", justifyContent: "right", gap: "60px", position: "relative", left: "-37px",top:"7px" }}> Pickup Charges: <strong style={{ font: "normal normal 600 24px/27px Open Sans" }}>{pickupCharges} </strong></td>
                   <h3 style={{ color: "white", background: "#5861AE", width: "700px", height: "49px" }}><span style={{ position: "relative", top: "10px", right: "40px", fontWeight: "400" }}>  Total: &nbsp; &nbsp; &nbsp;<strong style={{ fontWeight: "700" }}>Rs {grandTotal}</strong> </span></h3>
                 </td>
               </tr>
@@ -160,19 +162,19 @@ function Summary({ items, total, onBack, onConfirm }) {
                   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
                 }}
               >
-                <strong>{addrObj.title}</strong>
-                <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }}>
+                <strong style={{font: "normal normal bold 18px/24px Open Sans",letterSpacing: "0.18px",position:"relative",top:"-5px"}}>{addrObj.title}</strong>
+                <div style={{ marginTop: "3px",color: "#555",font: "normal normal normal 16px/18px Open Sans",letterSpacing: "0.80px" }}>
                   {addrObj.address}
                 </div>
                 {selectedAddress === addrObj.address && (
                   <span style={{
                     position: "absolute",
-                    top: "10px",
+                    top: "8px",
                     right: "10px",
                     color: "green",
                     fontSize: "20px",
                   }}>
-                    <img src={tick} alt="tick image" />
+                    <img src={tick} alt="tick" />
                   </span>
                 )}
               </div>
@@ -182,12 +184,12 @@ function Summary({ items, total, onBack, onConfirm }) {
               onClick={handleAddAddressClick}
               style={{
                 color: "#5861AE",
-                fontWeight: "bold",
+                font: "normal normal bold 18px/24px Open Sans",
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              Add New
+              ADD NEW
             </div>
           </div>
         </div>
@@ -196,7 +198,7 @@ function Summary({ items, total, onBack, onConfirm }) {
         <div className="summary-buttons1">
           <button
             onClick={handleConfirm}
-            disabled={!isButtonEnabled}
+            disabled={!isButtonEnabled}        //disabled untill isButtonEnabled false
             style={{
               backgroundColor: isButtonEnabled ? "#5861AE" : "#9CA3D9",
               color: "white",

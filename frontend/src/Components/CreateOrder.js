@@ -55,13 +55,13 @@ function CreateOrder() {
 
   const handleWashToggle = (item, type) => {
     const current = washSelections[item] || [];
-    const updated = current.includes(type)
+    const updated = current.includes(type)              //If the type is already selected, it removes it. If it's not selected, it adds it to the list.
       ? current.filter((t) => t !== type)
       : [...current, type];
 
     setWashSelections({ ...washSelections, [item]: updated });
 
-    if (!quantities[item] && !current.includes(type)) {
+    if (!quantities[item] && !current.includes(type)) {   //If the item doesn't already have a quantity and this is the first time this type is being selected, it sets the quantity to 1.
       setQuantities({ ...quantities, [item]: 1 });
     }
   };
@@ -99,8 +99,8 @@ function CreateOrder() {
   const selectedItems = items
     .map(({ name }) => ({
       type: name,
-      quantity: quantities[name],
-      washType: washSelections[name],
+      quantity: quantities[name],            //{  type: "Shirts", quantity: quantities["Shirts"],  washType: washSelections["Shirts"], price: getPrice("Shirts") }
+      washType: washSelections[name],      //search for selected wash types associated with name e.g trouser,joggers,etc
       price: getPrice(name),
     }))
     .filter((item) => item.quantity > 0 && item.washType?.length > 0);
@@ -124,11 +124,11 @@ function CreateOrder() {
       <table>
         <thead>
           <tr>
-            <th><span style={{ position: "relative", left: "-170px" }}> Product Type</span></th>
-            <th><span style={{ position: "relative", left: "-20px" }}> Quantity</span></th>
-            <th><span style={{ position: "relative", left: "-170px" }}> Wash Type</span></th>
-            <th><span style={{ position: "relative", left: "-35px" }}> Price</span></th>
-            <th><span style={{ position: "relative", left: "-170px" }}> &nbsp;</span></th>
+            <th><span style={{ position: "relative", left: "-150px", fontWeight:"normal", letterSpacing:"2px" }}> Product Types</span></th>
+            <th><span style={{ position: "relative", left: "-20px", fontWeight:"normal", letterSpacing:"2px"  }}> Quantity</span></th>
+            <th><span style={{ position: "relative", left: "-145px", fontWeight:"normal", letterSpacing:"2px"  }}> Wash Type</span></th>
+            <th><span style={{ position: "relative", left: "-35px", fontWeight:"normal", letterSpacing:"2px"  }}> Price</span></th>
+            <th><span style={{ position: "relative", left: "-170px", fontWeight:"normal", letterSpacing:"2px"  }}> &nbsp;</span></th>
           </tr>
         </thead>
         <tbody>
@@ -140,7 +140,7 @@ function CreateOrder() {
 
             return (
               <tr key={name}>
-                <td style={{ padding: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <td style={{ padding: "10px", display: "flex", alignItems: "center", gap: "10px",position:"relative", left:"12px" }}>
                   <span style={{ fontSize: "24px" }}>{icon}</span>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <strong>{name}</strong>
@@ -150,15 +150,16 @@ function CreateOrder() {
                 <td style={{ padding: "10px", position: "relative", top: "20px" }}>
                   <input
                     type="number"
+                    placeholder="0"
                     min="0"
                     value={quantities[name] || ""}
                     onChange={(e) => handleQtyChange(name, e.target.value)}
                     style={{
                       width: "60px",
-                      padding: "5px",
                       border: "1px solid #ccc",
                       borderRadius: "4px",
-                      boxShadow: "inset 0 1px 2px rgba(0,0,0,0.1)"
+                      boxShadow: "inset 0 1px 2px rgba(0,0,0,0.1)",
+                      textAlign:"center"
                     }}
                   />
                 </td>
@@ -170,7 +171,7 @@ function CreateOrder() {
                         <div
                           key={type}
                           className={`wash-option ${isSelected ? "selected" : ""}`}
-                          onClick={() => handleWashToggle(name, type)}
+                          onClick={() => handleWashToggle(name, type)}       //it takes name from items and type from washTypes e.g shirt and ironing
                         >
                           <img src={icon} alt={type} />
                         </div>
@@ -178,7 +179,7 @@ function CreateOrder() {
                     })}
                   </div>
                 </td>
-                <td style={{ padding: "10px", width: "100px" }}>
+                <td style={{ padding: "10px", width: "130px" }}>
                   {qty > 0 && washSum > 0 ? (
                     <>
                       <span style={{ fontWeight: "bold" }}>{qty}</span>
@@ -241,7 +242,7 @@ function CreateOrder() {
         </div>
       )}
 
-      {showSuccessPopup && (
+      {showSuccessPopup && (                              //if showSuccessPopup has value as true then SuccessPopup component triggers
         <div className="centered-success-popup">
           <SuccessPopup />
         </div>

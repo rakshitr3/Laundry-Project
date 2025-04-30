@@ -63,21 +63,22 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    let user = null;
+    let user = null;    //as user can login either through mobile or email so we declare user variable here and use in mobile and email fields
 
-    if (mobile && isValidMobileNumber(mobile)) {
+    if (mobile && isValidMobileNumber(mobile)) {     //if user enter mobile for login then this will work else below will work
       user = await User.findOne({ mobile });
     }
 
     if (email && isValidEmail(email)) {
       user = await User.findOne({ email });
+
     }
 
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);   //compare password eneterd by user with password attached with login credentials
     if (!isPasswordValid) {
       return res.status(400).send({ message: 'Invalid credentials' });
     }
@@ -103,7 +104,7 @@ router.get('/protected', (req, res) => {
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) return res.status(401).send({ message: 'Invalid or expired token' });
 
-    res.send({ message: 'Protected data accessed', user: decoded });
+    res.send({ message: 'Protected data accessed', user: decoded });         //attach decoded data with user key
   });
 });
 

@@ -14,9 +14,9 @@ const VerticalNav = () => {
       <Link
         to="/dashboard"
         className={currentPath === "/dashboard" ? "nav-link active" : "nav-link"}
-        style={{ padding: "5px" }}
+        style={{ padding: "8px" }}
       >
-        <MdHome size={30} style={{ position: "relative", top: "30%", left: "35%", color: currentPath === "/dashboard" ? "#5861AE" : "white" }} />
+        <MdHome size={30} style={{ position: "relative", top: "30%", left: currentPath === "/dashboard"?"25%":"35%", color: currentPath === "/dashboard" ? "#5861AE" : "white" }} />
       </Link>
 
       <Link
@@ -25,7 +25,7 @@ const VerticalNav = () => {
         style={{ padding: "5px" }}
       >
         <div style={{
-          position: "relative", top: "30%", left: "38%",
+          position: "relative", top: "30%", left: currentPath === "/create"?"30%":"39%",
           color: currentPath === "/create" ? "#5861AE" : "white"
         }}>
           <FaPlusCircle />
@@ -38,7 +38,7 @@ const VerticalNav = () => {
         style={{ padding: "14px" }}
       >
         <div style={{
-          position: "relative", top: "15%", left: "33%",
+          position: "relative", top: "15%", left: currentPath === "/orders" ? "10px": "30px",
           color: currentPath === "/orders" ? "#5861AE" : "white"
         }}>
           <RxHamburgerMenu size={34} />
